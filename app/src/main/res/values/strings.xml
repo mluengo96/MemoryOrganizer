@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MemoryOrganizer</string>
+
+    <!-- Navigation Bar items -->
+    <string name="folders_screen">Folders</string>
+    <string name="saves_screen">Saves</string>
+    <string name="search_screen">Search</string>
+    <string name="settings_screen">Settings</string>
 </resources>

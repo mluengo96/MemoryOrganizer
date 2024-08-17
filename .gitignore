@@ -1,5 +1,7 @@
 *.iml
 .gradle
+.idea/kotlinc.xml
+.idea/misc.xml
 .idea/vcs.xml
 /local.properties
 /.idea/caches

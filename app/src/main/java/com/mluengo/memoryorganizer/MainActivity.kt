@@ -7,10 +7,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.mluengo.memoryorganizer.navigation.Screen
+import com.mluengo.memoryorganizer.ui.components.NavigationBar
+import com.mluengo.memoryorganizer.ui.screens.FolderScreen
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +27,39 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MemoryOrganizerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                val navController = rememberNavController()
+                val snackbarHostState = remember { SnackbarHostState() }
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    snackbarHost = { SnackbarHost(snackbarHostState) },
+                    bottomBar = {
+                        //if (appState.shouldShowNavBar) {
+                            NavigationBar(
+                                navController = navController
+                            )
+                        //}
+                    }
+                ) { innerPadding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Folders.route,
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {
+                        composable(Screen.Folders.route) { FolderScreen(navController) }
+                        composable(Screen.Bookmarks.route) { }
+                        composable(Screen.Settings.route) { }
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MemoryOrganizerTheme {
-        Greeting("Android")
+        //Greeting("Android")
     }
 }
