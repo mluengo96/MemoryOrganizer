@@ -18,7 +18,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.navigation.Screen
 import com.mluengo.memoryorganizer.ui.components.NavigationBar
-import com.mluengo.memoryorganizer.ui.screens.FolderScreen
+import com.mluengo.memoryorganizer.ui.screens.bookmarks.BookmarkScreen
+import com.mluengo.memoryorganizer.ui.screens.folders.FolderScreen
+import com.mluengo.memoryorganizer.ui.screens.settings.SettingsScreen
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 
 class MainActivity : ComponentActivity() {
@@ -47,8 +49,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.Folders.route) { FolderScreen(navController) }
-                        composable(Screen.Bookmarks.route) { }
-                        composable(Screen.Settings.route) { }
+                        composable(Screen.Bookmarks.route) { BookmarkScreen(navController) }
+                        composable(Screen.Settings.route) { SettingsScreen(navController) }
                     }
                 }
             }

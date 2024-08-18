@@ -6,4 +6,10 @@
     <string name="saves_screen">Saves</string>
     <string name="search_screen">Search</string>
     <string name="settings_screen">Settings</string>
+
+    <string name="button_add">Add</string>
+
+    <string name="welcome_title">Welcome!</string>
+    <string name="welcome_text">First time? Don\'t worry, we\'ll take things slow! Tap the little + button here to create your first folder!</string>
+
 </resources>
