@@ -10,13 +10,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.navigation.Screen
+import com.mluengo.memoryorganizer.ui.components.CenterAppBar
 import com.mluengo.memoryorganizer.ui.components.NavigationBar
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.BookmarkScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.FolderScreen
@@ -35,6 +39,14 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
+                    topBar = {
+                        val currentBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = currentBackStackEntry?.destination?.route
+
+                        if (currentDestination == Screen.Bookmarks.route) {
+                            CenterAppBar(title = stringResource(id = R.string.bookmarks_title))
+                        }
+                    },
                     bottomBar = {
                         //if (appState.shouldShowNavBar) {
                             NavigationBar(

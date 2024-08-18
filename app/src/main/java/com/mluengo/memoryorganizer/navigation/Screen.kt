@@ -18,6 +18,6 @@ sealed class Screen(
     val unselectedIcon: ImageVector,
 ) {
     data object Folders: Screen("folder", R.string.folders_screen, Icons.Rounded.Folder, Icons.Outlined.Folder)
-    data object Bookmarks: Screen("bookmarks", R.string.saves_screen, Icons.Rounded.Bookmarks, Icons.Outlined.Bookmarks)
+    data object Bookmarks: Screen("bookmarks", R.string.bookmarks_screen, Icons.Rounded.Bookmarks, Icons.Outlined.Bookmarks)
     data object Settings: Screen("settings", R.string.settings_screen, Icons.Rounded.Settings, Icons.Outlined.Settings)
 }

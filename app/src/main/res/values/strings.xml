@@ -3,12 +3,17 @@
 
     <!-- Navigation Bar items -->
     <string name="folders_screen">Folders</string>
-    <string name="saves_screen">Saves</string>
+    <string name="bookmarks_screen">Bookmarks</string>
     <string name="search_screen">Search</string>
     <string name="settings_screen">Settings</string>
 
+    <!-- Top App Bar titles -->
+    <string name="bookmarks_title">My Items</string>
+    <string name="settings_title">Settings</string>
+
     <string name="button_add">Add</string>
 
+    <!-- Welcome Screen -->
     <string name="welcome_title">Welcome!</string>
     <string name="welcome_text">First time? Don\'t worry, we\'ll take things slow! Tap the little + button here to create your first folder!</string>
 

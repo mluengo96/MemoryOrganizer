@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
+import com.mluengo.memoryorganizer.ui.theme.Shapes
 
 @Composable
 fun Fab(
@@ -28,7 +29,7 @@ fun Fab(
         ) {
             FloatingActionButton(
                 onClick = { /*TODO*/ },
-                modifier = modifier
+                modifier = modifier,
             ) {
                 Icon(imageVector = Icons.Rounded.Add, contentDescription = text)
             }
