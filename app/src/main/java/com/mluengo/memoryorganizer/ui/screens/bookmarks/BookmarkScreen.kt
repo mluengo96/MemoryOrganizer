@@ -92,54 +92,22 @@ fun BookmarkScreen(
                 )
             }
         }
-        Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Text tab ${state + 1} selected",
-            style = MemoryOrganizerTypography.bodyLarge
+        when (state) {
+            0 -> {
+                BookmarksTab()
+            }
+            1 -> {
+                ArchivesTab()
+            }
+        }
+    }
+
+    if (state != 1) {
+        Fab(
+            text = "New Folder",
+            modifier = Modifier
         )
     }
-    /*Box(
-        modifier = Modifier.fillMaxSize()
-            .padding(spacing.spaceMedium),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(id = R.string.welcome_title),
-                textAlign = TextAlign.Center,
-                style = MemoryOrganizerTypography.displayLarge,
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceMedium))
-            Text(
-                text = stringResource(id = R.string.welcome_text),
-                textAlign = TextAlign.Center,
-                style = MemoryOrganizerTypography.bodyLarge,
-            )
-        }
-
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(spacing.spaceExtraLarge),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.arrow),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(150.dp)
-                    .rotate(27f)
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
-        }
-    }*/
-
-    Fab(
-        text = "New Folder",
-        modifier = Modifier
-    )
 }
 
 @Preview(showBackground = true, device = "id:pixel_7a")

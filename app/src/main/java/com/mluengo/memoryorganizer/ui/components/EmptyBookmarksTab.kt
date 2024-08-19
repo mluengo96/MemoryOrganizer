@@ -1,4 +1,4 @@
-package com.mluengo.memoryorganizer.ui.screens.folders
+package com.mluengo.memoryorganizer.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -17,18 +17,14 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.ui.components.Fab
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
 @Composable
-fun FolderScreen(
-    navController: NavController,
+fun EmptyBookmarksTab(
+
 ) {
     val spacing = LocalSpacing.current
     Box(
@@ -40,13 +36,7 @@ fun FolderScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(id = R.string.welcome_title),
-                textAlign = TextAlign.Center,
-                style = MemoryOrganizerTypography.displayLarge,
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceMedium))
-            Text(
-                text = stringResource(id = R.string.welcome_text),
+                text = stringResource(id = R.string.bookmarks_empty_text),
                 textAlign = TextAlign.Center,
                 style = MemoryOrganizerTypography.bodyLarge,
             )
@@ -68,15 +58,4 @@ fun FolderScreen(
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }
     }
-
-    Fab(
-        text = "New Folder",
-        modifier = Modifier
-    )
-}
-
-@Preview(showBackground = true, device = "id:pixel_7a")
-@Composable
-fun FolderScreenPreview() {
-    FolderScreen(navController = rememberNavController())
 }

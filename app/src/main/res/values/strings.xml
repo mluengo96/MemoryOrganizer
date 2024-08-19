@@ -17,4 +17,12 @@
     <string name="welcome_title">Welcome!</string>
     <string name="welcome_text">First time? Don\'t worry, we\'ll take things slow! Tap the little + button here to create your first folder!</string>
 
+    <!-- Bookmarks Tab -->
+    <string name="bookmarks_empty_title">Welcome!</string>
+    <string name="bookmarks_empty_text">Wow… looks so empty in here!\nTap the little + button here to add your first item!</string>
+
+    <!-- Archives Tab -->
+    <string name="archives_empty_title">Welcome!</string>
+    <string name="archives_empty_text">Not much to see here…\nLooks like you haven\'t archived anything just yet!\nArchived items will appear here!</string>
+
 </resources>
