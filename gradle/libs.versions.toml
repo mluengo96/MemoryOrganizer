@@ -11,6 +11,7 @@ composeBom = "2024.06.00"
 uiTextGoogleFonts = "1.6.8"
 navigationCompose = "2.7.7"
 iconsCompose = "1.6.8"
+emoji2Emojipicker = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +31,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "iconsCompose" }
+emoji2-emojipicker = { group = "androidx.emoji2", name = "emoji2-emojipicker", version.ref = "emoji2Emojipicker" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

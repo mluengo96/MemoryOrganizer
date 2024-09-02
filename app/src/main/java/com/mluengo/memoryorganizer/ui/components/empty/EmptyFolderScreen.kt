@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
@@ -64,4 +65,11 @@ fun EmptyFolderScreen(
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }
     }
+}
+
+@Preview(showBackground = true, device = "id:pixel_7a")
+@Composable
+fun EmptyFolderScreenPreview() {
+    EmptyFolderScreen(
+    )
 }

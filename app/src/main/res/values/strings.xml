@@ -10,6 +10,8 @@
     <!-- Top App Bar titles -->
     <string name="bookmarks_title">My Items</string>
     <string name="settings_title">Settings</string>
+    <string name="new_folder_title">New Folder</string>
+    <string name="new_item_title">New Item</string>
 
     <string name="button_add">Add</string>
 
@@ -19,6 +21,18 @@
 
     <!-- Folders Screen -->
     <string name="folders_title">Welcome\nBack</string>
+
+    <!-- New Folders Screen -->
+    <string name="new_folders_title">Title</string>
+    <string name="new_folders_description">Description</string>
+    <string name="new_folders_required">Required</string>
+    <string name="new_folders_status">Status</string>
+    <string name="new_folders_set_status">Set status</string>
+    <string name="new_folders_create">Create new folder</string>
+
+    <string name="new_folders_status_todo">Todo</string>
+    <string name="new_folders_status_in_progress">In progress</string>
+    <string name="new_folders_status_done">Done</string>
 
     <!-- Bookmarks Tab -->
     <string name="bookmarks_empty_title">Welcome!</string>
