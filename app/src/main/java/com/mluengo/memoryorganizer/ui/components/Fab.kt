@@ -11,13 +11,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
-import com.mluengo.memoryorganizer.ui.theme.Shapes
 
 @Composable
 fun Fab(
     text: String,
+    onFabClick: () -> Unit,
     modifier: Modifier
 ) {
     val spacing = LocalSpacing.current
@@ -28,19 +27,11 @@ fun Fab(
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = onFabClick,
                 modifier = modifier,
             ) {
                 Icon(imageVector = Icons.Rounded.Add, contentDescription = text)
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun FabPreview(
-
-) {
-    Fab(text = "New Folder", modifier = Modifier)
 }

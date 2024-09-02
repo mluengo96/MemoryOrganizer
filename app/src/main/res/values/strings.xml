@@ -3,17 +3,24 @@
 
     <!-- Navigation Bar items -->
     <string name="folders_screen">Folders</string>
-    <string name="bookmarks_screen">Bookmarks</string>
+    <string name="bookmarks_screen">Saved</string>
     <string name="search_screen">Search</string>
     <string name="settings_screen">Settings</string>
+
+    <!-- Tab bar items -->
+    <string name="bookmarks_tab">Bookmarks</string>
+    <string name="archived_tab">Archived</string>
 
     <!-- Top App Bar titles -->
     <string name="bookmarks_title">My Items</string>
     <string name="settings_title">Settings</string>
-    <string name="new_folder_title">New Folder</string>
-    <string name="new_item_title">New Item</string>
 
+    <string name="new_folder">New Folder</string>
+    <string name="new_item">New Item</string>
+
+    <!-- Actions -->
     <string name="button_add">Add</string>
+    <string name="close">Close</string>
 
     <!-- Welcome Screen -->
     <string name="welcome_title">Welcome!</string>

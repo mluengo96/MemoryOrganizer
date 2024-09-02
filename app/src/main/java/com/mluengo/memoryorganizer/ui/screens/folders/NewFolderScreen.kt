@@ -67,11 +67,6 @@ fun NewFolderScreen(
         mutableStateOf(EmojiViewItem("", emptyList()))
     }
 
-    /*CenterAppBar(
-        title = stringResource(id = R.string.new_folder_title),
-        hasCloseAction = true
-    )*/
-
     Column(
         Modifier
             .fillMaxHeight()
