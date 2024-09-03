@@ -49,4 +49,24 @@
     <string name="archives_empty_title">Welcome!</string>
     <string name="archives_empty_text">Not much to see here…\nLooks like you haven\'t archived anything just yet!\nArchived items will appear here!</string>
 
+    <!-- Settings -->
+    <string name="theme_title">Theme</string>
+    <string name="general_title">General</string>
+    <string name="help_support_title">Help &amp; Support</string>
+
+    <string name="system_theme">System</string>
+    <string name="light_theme">Light</string>
+    <string name="dark_theme">Dark</string>
+
+    <string name="app_icon">App Icon</string>
+    <string name="authentication">Authentication</string>
+    <string name="categories">Categories</string>
+
+    <string name="about_the_developer">About the developer</string>
+    <string name="report_bug">Report a bug</string>
+    <string name="request_feature">Request a feature</string>
+    <string name="rate">Rate on Play Store</string>
+    <string name="share">Share with friends</string>
+    <string name="follow_socials">Follow on…</string>
+
 </resources>
