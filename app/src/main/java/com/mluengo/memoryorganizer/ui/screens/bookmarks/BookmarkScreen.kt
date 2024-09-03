@@ -24,7 +24,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.BookmarksTabIndicator
-import com.mluengo.memoryorganizer.ui.components.Fab
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
@@ -95,13 +94,13 @@ fun BookmarkScreen(
         }
     }
 
-    if (state != 1) {
+    /*if (state != 1) {
         Fab(
             text = "New Folder",
             onFabClick = { },
             modifier = Modifier
         )
-    }
+    }*/
 }
 
 @Preview(showBackground = true, device = "id:pixel_7a")

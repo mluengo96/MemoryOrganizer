@@ -1,6 +1,9 @@
 package com.mluengo.memoryorganizer.ui.screens.folders
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -20,11 +23,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
@@ -108,7 +113,14 @@ fun NewFolderScreen(
                     onValueChange = { titleText = it },
                     placeholder = { Text(stringResource(id = R.string.new_folders_title)) },
                     singleLine = true,
-                    supportingText = { Text(stringResource(id = R.string.new_folders_required)) }
+                    supportingText = { Text(stringResource(id = R.string.new_folders_required)) },
+                    trailingIcon = {
+                        AnimatedVisibility(visible = titleText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
+                            IconButton(onClick = { titleText = "" }) {
+                                Icon(Icons.Rounded.Clear, "Clear")
+                            }
+                        }
+                    }
                 )
 
             }

@@ -6,14 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.navigation.Route
 import com.mluengo.memoryorganizer.navigation.Screen
 import com.mluengo.memoryorganizer.ui.AppState
+import com.mluengo.memoryorganizer.ui.components.Fab
 import com.mluengo.memoryorganizer.ui.components.NavigationBar
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.rememberAppState
@@ -42,14 +48,14 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val snackbarHostState = remember { SnackbarHostState() }
                 val appState: AppState = rememberAppState()
+                val currentBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = currentBackStackEntry?.destination?.route
+                val lazyListState = rememberLazyListState()
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     topBar = {
-                        val currentBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentDestination = currentBackStackEntry?.destination?.route
-
                         when (currentDestination) {
                             Screen.Bookmarks.route -> { TopAppBar(titleRes = R.string.bookmarks_title) }
                             Route.NEW_FOLDER -> {
@@ -70,6 +76,30 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
+                    },
+                    floatingActionButton = {
+                        when (currentDestination) {
+                            Screen.Folders.route -> {
+                                Fab(
+                                    extended = lazyListState.isScrollingUp(),
+                                    resourceId = R.string.new_folder,
+                                    onFabClick = {
+                                        navController.navigate(Route.NEW_FOLDER)
+                                    },
+                                    modifier = Modifier
+                                )
+                            }
+                            Screen.Bookmarks.route -> {
+                                Fab(
+                                    extended = lazyListState.isScrollingUp(),
+                                    resourceId = R.string.new_item,
+                                    onFabClick = {
+                                        navController.navigate(Route.NEW_ITEM)
+                                    },
+                                    modifier = Modifier
+                                )
+                            }
+                        }
                     }
                 ) { innerPadding ->
                     NavHost(
@@ -78,7 +108,10 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.Folders.route) {
-                            FolderScreen(navController)
+                            FolderScreen(
+                                navController = navController,
+                                lazyListState = lazyListState
+                            )
                             appState.setShowBottomBar(true)
                         }
                         composable(Screen.Bookmarks.route) { BookmarkScreen(navController) }
@@ -92,6 +125,27 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+/**
+ * Returns whether the lazy list is currently scrolling up.
+ */
+@Composable
+private fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }
 
 @Preview(showBackground = true)
