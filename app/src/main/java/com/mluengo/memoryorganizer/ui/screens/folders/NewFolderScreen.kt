@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.ChevronRight
@@ -55,6 +54,7 @@ import androidx.emoji2.emojipicker.EmojiViewItem
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
+import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.outlineLight
 
 @Composable
@@ -176,7 +176,7 @@ fun NewFolderScreen(
                             .onSizeChanged {
                                 itemHeight = with(density) { it.height.toDp() }
                             }
-                            .width(150.dp)
+                            .width(200.dp)
                             .height(56.dp)
                             .pointerInput(true) {
                                 detectTapGestures(
@@ -186,7 +186,7 @@ fun NewFolderScreen(
                                     }
                                 )
                             },
-                        shape = RoundedCornerShape(4.dp),
+                        shape = Shapes.extraSmall,
                         border = BorderStroke(1.dp, outlineLight),
                     ) {
                         Row(
@@ -218,7 +218,7 @@ fun NewFolderScreen(
                     DropdownMenu(
                         expanded = isContextMenuVisible,
                         onDismissRequest = { isContextMenuVisible = false },
-                        modifier = Modifier.width(150.dp)
+                        modifier = Modifier.width(200.dp)
                     ) {
                         DropdownMenuItem(
                             text = { Text(todoText) },
@@ -264,7 +264,7 @@ fun NewFolderScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(375.dp),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = Shapes.large,
                 ) {
                     AndroidView(
                         factory = { context ->
@@ -283,19 +283,16 @@ fun NewFolderScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(
-                                top = 8.dp,
-                                bottom = 0.dp,
-                                start = 8.dp,
-                                end = 8.dp
+                                top = spacing.spaceSmall,
+                                bottom = spacing.default,
+                                start = spacing.spaceSmall,
+                                end = spacing.spaceSmall
                             ),
                     )
                 }
             }
         }
     }
-}
-
-private fun openIconPicker() {
 }
 
 @Preview(showBackground = true, device = "id:pixel_7a")
