@@ -30,13 +30,11 @@
     <string name="folders_title">Welcome\nBack</string>
 
     <!-- New Folders Screen -->
-    <string name="new_folders_title">Title</string>
-    <string name="new_folders_description">Description</string>
-    <string name="new_folders_required">Required</string>
     <string name="new_folders_status">Status</string>
     <string name="new_folders_set_status">Set status</string>
     <string name="new_folders_create">Create new folder</string>
 
+    <!-- Folder status -->
     <string name="new_folders_status_todo">Todo</string>
     <string name="new_folders_status_in_progress">In progress</string>
     <string name="new_folders_status_done">Done</string>
@@ -48,6 +46,20 @@
     <!-- Archives Tab -->
     <string name="archives_empty_title">Welcome!</string>
     <string name="archives_empty_text">Not much to see here…\nLooks like you haven\'t archived anything just yet!\nArchived items will appear here!</string>
+
+    <!-- New Items Screen -->
+    <string name="new_item_add_url_title">Add a URL</string>
+    <string name="new_item_add_url_description">Paste the link you want to save</string>
+    <string name="new_item_add_button">Add new item</string>
+    <string name="new_item_add_to_folder">Add to a folder</string>
+    <string name="new_item_folder">Folder</string>
+
+    <!-- Text Fields -->
+    <string name="edit_text_title">Title</string>
+    <string name="edit_text_description">Description</string>
+    <string name="edit_text_notes">Notes</string>
+    <string name="edit_text_required">Required</string>
+    <string name="edit_text_http">https://</string>
 
     <!-- Settings -->
     <string name="theme_title">Theme</string>

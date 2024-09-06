@@ -34,6 +34,7 @@ import com.mluengo.memoryorganizer.ui.components.NavigationBar
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.rememberAppState
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.BookmarkScreen
+import com.mluengo.memoryorganizer.ui.screens.bookmarks.NewItemScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.FolderScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.NewFolderScreen
 import com.mluengo.memoryorganizer.ui.screens.settings.SettingsScreen
@@ -118,6 +119,10 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Settings.route) { SettingsScreen(navController) }
                         composable(Route.NEW_FOLDER) {
                             NewFolderScreen()
+                            appState.setShowBottomBar(false)
+                        }
+                        composable(Route.NEW_ITEM) {
+                            NewItemScreen()
                             appState.setShowBottomBar(false)
                         }
                     }
