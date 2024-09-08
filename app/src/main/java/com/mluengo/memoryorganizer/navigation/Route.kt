@@ -6,4 +6,5 @@ object Route {
     const val SETTINGS = "settings"
     const val NEW_FOLDER = "new_folder"
     const val NEW_ITEM = "new_item"
+    const val FOLDER = "folder"
 }

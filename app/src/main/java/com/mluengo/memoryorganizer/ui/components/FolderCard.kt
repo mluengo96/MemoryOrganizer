@@ -27,11 +27,11 @@ import com.mluengo.memoryorganizer.ui.theme.onSurfaceVariantLight
 
 @Composable
 fun FolderCard(
-
+    onClick: () -> Unit
 ) {
     val spacing = LocalSpacing.current
     OutlinedCard(
-        onClick = { /* TODO */ }
+        onClick = onClick
     ) {
         Column(
             modifier = Modifier.padding(spacing.spaceMedium)
@@ -71,5 +71,7 @@ fun FolderCard(
 @Preview(showBackground = false, device = "id:pixel_7a")
 @Composable
 fun FolderCardPreview() {
-    FolderCard()
+    FolderCard(
+        onClick = { }
+    )
 }

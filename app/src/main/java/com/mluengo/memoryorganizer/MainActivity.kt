@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -21,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -36,6 +37,7 @@ import com.mluengo.memoryorganizer.ui.rememberAppState
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.BookmarkScreen
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.NewItemScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.FolderScreen
+import com.mluengo.memoryorganizer.ui.screens.folders.ItemScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.NewFolderScreen
 import com.mluengo.memoryorganizer.ui.screens.settings.SettingsScreen
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
@@ -54,19 +56,33 @@ class MainActivity : ComponentActivity() {
                 val lazyListState = rememberLazyListState()
 
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize(),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     topBar = {
                         when (currentDestination) {
-                            Screen.Bookmarks.route -> { TopAppBar(titleRes = R.string.bookmarks_title) }
+                            Screen.Bookmarks.route -> { TopAppBar(title = stringResource(id = R.string.bookmarks_title)) }
                             Route.NEW_FOLDER -> {
                                 TopAppBar(
-                                    titleRes = R.string.new_folder,
+                                    title = stringResource(id = R.string.new_folder),
                                     hasNavigationButton = false,
                                     hasActionButton = true,
                                     actionIcon = Icons.Rounded.Close,
                                     actionIconContentDescription = stringResource(id = R.string.close),
                                     onActionClick = { navController.navigateUp() }
+                                )
+                            }
+                            Route.FOLDER -> {
+                                TopAppBar(
+                                    title = "Folder's name",
+                                    hasNavigationButton = true,
+                                    hasActionButton = true,
+                                    actionIcon = Icons.Rounded.MoreVert,
+                                    actionIconContentDescription = stringResource(id = R.string.edit),
+                                    onActionClick = { /* TODO */ },
+                                    navigationIcon = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    navigationIconContentDescription = stringResource(id = R.string.back),
+                                    onNavigationClick = { navController.navigateUp() },
                                 )
                             }
                         }
@@ -90,8 +106,7 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier
                                 )
                             }
-                            Screen.Bookmarks.route -> {
-                                var showBottomSheet by remember { mutableStateOf(false) }
+                            Screen.Bookmarks.route, Route.FOLDER -> {
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
                                     resourceId = R.string.new_item,
@@ -126,6 +141,13 @@ class MainActivity : ComponentActivity() {
                             NewItemScreen()
                             appState.setShowBottomBar(false)
                         }
+                        composable(Route.FOLDER) {
+                            ItemScreen(
+                                navController = navController,
+                                lazyListState = lazyListState
+                            )
+                            appState.setShowBottomBar(false)
+                        }
                     }
                 }
             }
@@ -152,12 +174,4 @@ private fun LazyListState.isScrollingUp(): Boolean {
             }
         }
     }.value
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MemoryOrganizerTheme {
-        //Greeting("Android")
-    }
 }

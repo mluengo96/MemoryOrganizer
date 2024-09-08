@@ -1,6 +1,5 @@
 package com.mluengo.memoryorganizer.ui.components
 
-import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
@@ -22,7 +21,7 @@ import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
-    @StringRes titleRes: Int,
+    title: String,
     hasNavigationButton: Boolean = false,
     hasActionButton: Boolean = false,
     navigationIcon: ImageVector? = null,
@@ -36,7 +35,7 @@ fun TopAppBar(
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = stringResource(id = titleRes),
+                text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MemoryOrganizerTypography.titleLarge
@@ -75,7 +74,7 @@ fun TopAppBar(
 @Composable
 fun CenterAppBarPreview() {
     TopAppBar(
-        titleRes = android.R.string.untitled,
+        title = stringResource(id = android.R.string.untitled),
         navigationIcon = Icons.Rounded.Search,
         navigationIconContentDescription = "Navigation icon",
         actionIcon = Icons.Rounded.MoreVert,

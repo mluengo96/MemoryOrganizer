@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.mluengo.memoryorganizer.navigation.Route
 import com.mluengo.memoryorganizer.ui.components.FolderCard
 import com.mluengo.memoryorganizer.ui.components.HeaderFolders
 import com.mluengo.memoryorganizer.ui.components.empty.EmptyFolderScreen
@@ -33,7 +34,7 @@ fun FolderScreen(
             }
             // Add 5 items
             items(5) {
-                FolderCard()
+                FolderCard(onClick = { navController.navigate(Route.FOLDER) })
             }
         }
     }
