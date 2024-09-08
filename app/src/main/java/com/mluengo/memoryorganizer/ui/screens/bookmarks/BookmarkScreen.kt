@@ -1,6 +1,8 @@
 package com.mluengo.memoryorganizer.ui.screens.bookmarks
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Bookmarks
@@ -30,7 +32,8 @@ import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookmarkScreen(
-    navController: NavController
+    navController: NavController,
+    lazyListState: LazyListState,
 ) {
     val spacing = LocalSpacing.current
     var state by remember { mutableIntStateOf(0) }
@@ -86,7 +89,9 @@ fun BookmarkScreen(
         }
         when (state) {
             0 -> {
-                BookmarksTab()
+                BookmarksTab(
+                    lazyListState = lazyListState
+                )
             }
             1 -> {
                 ArchivesTab()
@@ -106,5 +111,8 @@ fun BookmarkScreen(
 @Preview(showBackground = true, device = "id:pixel_7a")
 @Composable
 fun BookmarksScreenPreview() {
-    BookmarkScreen(navController = rememberNavController())
+    BookmarkScreen(
+        navController = rememberNavController(),
+        lazyListState = rememberLazyListState()
+    )
 }

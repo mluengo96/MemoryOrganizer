@@ -91,6 +91,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             Screen.Bookmarks.route -> {
+                                var showBottomSheet by remember { mutableStateOf(false) }
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
                                     resourceId = R.string.new_item,
@@ -115,7 +116,7 @@ class MainActivity : ComponentActivity() {
                             )
                             appState.setShowBottomBar(true)
                         }
-                        composable(Screen.Bookmarks.route) { BookmarkScreen(navController) }
+                        composable(Screen.Bookmarks.route) { BookmarkScreen(navController, lazyListState) }
                         composable(Screen.Settings.route) { SettingsScreen(navController) }
                         composable(Route.NEW_FOLDER) {
                             NewFolderScreen()
