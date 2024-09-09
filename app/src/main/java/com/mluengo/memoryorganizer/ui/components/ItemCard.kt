@@ -1,13 +1,10 @@
 package com.mluengo.memoryorganizer.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,16 +16,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Archive
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,7 +34,6 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.onSurfaceVariantLight
-import com.mluengo.memoryorganizer.ui.theme.primaryContainerLight
 
 @Composable
 fun ItemCard(
@@ -77,42 +71,30 @@ fun ItemCard(
                 Image(painter = painterResource(id = R.drawable.placholder), contentDescription = null, modifier = Modifier.clip(Shapes.extraSmall))
                 Spacer(modifier = Modifier.height(spacing.spaceMedium))
                 Row {
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape)
-                            .background(primaryContainerLight)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = true, color = Color.Black), // Custom ripple
-                                onClick = { /* TODO */ }
-                            ),
+                    Button(
+                        onClick = { /* TODO */ },
+                        shape = CircleShape,
+                        modifier = Modifier.size(48.dp),
+                        contentPadding = PaddingValues(1.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Archive,
                             contentDescription = "Archive item",
                             modifier = Modifier
-                                .align(Alignment.Center)  // Centers the icon inside the box
                                 .size(24.dp),
                         )
                     }
                     Spacer(modifier = Modifier.width(spacing.spaceMedium))
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape)
-                            .background(primaryContainerLight)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = true, color = Color.Black), // Custom ripple
-                                onClick = { /* TODO */ }
-                            ),
+                    Button(
+                        onClick = { /* TODO */ },
+                        shape = CircleShape,
+                        modifier = Modifier.size(48.dp),
+                        contentPadding = PaddingValues(1.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Delete,
                             contentDescription = "Delete item",
                             modifier = Modifier
-                                .align(Alignment.Center)  // Centers the icon inside the box
                                 .size(24.dp),
                         )
                     }
