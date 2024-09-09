@@ -1,5 +1,8 @@
 package com.mluengo.memoryorganizer.ui.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
@@ -12,11 +15,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,9 +36,17 @@ fun TopAppBar(
     actionIconContentDescription: String? = null,
     onNavigationClick: () -> Unit = { },
     onActionClick: () -> Unit = { },
+    lazyListState: LazyListState
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val coroutineScope = rememberCoroutineScope()
+
     CenterAlignedTopAppBar(
+        modifier = Modifier.clickable {
+            coroutineScope.launch {
+                lazyListState.animateScrollToItem(0)
+            }
+        },
         title = {
             Text(
                 text = title,
@@ -79,5 +93,6 @@ fun CenterAppBarPreview() {
         navigationIconContentDescription = "Navigation icon",
         actionIcon = Icons.Rounded.MoreVert,
         actionIconContentDescription = "Action icon",
+        lazyListState = rememberLazyListState()
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,33 +27,37 @@ fun ItemScreen(
     lazyListState: LazyListState,
 ) {
     val spacing = LocalSpacing.current
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Top
-        ) {
-            Column {
-                LazyColumn(
-                    contentPadding = PaddingValues(spacing.spaceMedium),
-                    verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                    state = lazyListState
-                ) {
-                    item {
-                        Text(
-                            text = "Lorem ipsum dolor sit amet consectetur adipiscing elit montes, interdum odio massa ultricies feugiat penatibus per dignissim, gravida urna mus neque consequat orci congue. Hac aptent inceptos lacinia rhoncus torquent donec etiam maecenas vulputate egestas, pharetra rutrum accumsan libero commodo imperdiet iaculis sociosqu turpis. Himenaeos duis habitasse lobortis, ligula conubia.",
-                            textAlign = TextAlign.Start,
-                            style = MemoryOrganizerTypography.bodyMedium,
-                        )
-                        Spacer(modifier = Modifier.height(spacing.spaceLarge))
-                    }
+    LaunchedEffect(Unit) {
+        lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
+    }
 
-                    // Add 5 items
-                    items(5) {
-                        ItemCard()
-                    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top
+    ) {
+        Column {
+            LazyColumn(
+                contentPadding = PaddingValues(spacing.spaceMedium),
+                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                state = lazyListState
+            ) {
+                item {
+                    Text(
+                        text = "Lorem ipsum dolor sit amet consectetur adipiscing elit montes, interdum odio massa ultricies feugiat penatibus per dignissim, gravida urna mus neque consequat orci congue. Hac aptent inceptos lacinia rhoncus torquent donec etiam maecenas vulputate egestas, pharetra rutrum accumsan libero commodo imperdiet iaculis sociosqu turpis. Himenaeos duis habitasse lobortis, ligula conubia.",
+                        textAlign = TextAlign.Start,
+                        style = MemoryOrganizerTypography.bodyMedium,
+                    )
+                    Spacer(modifier = Modifier.height(spacing.spaceLarge))
+                }
+
+                // Add 5 items
+                items(5) {
+                    ItemCard()
                 }
             }
         }
+    }
 }
 
 @Preview(showBackground = true, device = "id:pixel_7a")

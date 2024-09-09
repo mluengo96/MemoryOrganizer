@@ -14,6 +14,7 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +39,11 @@ fun BookmarkScreen(
     val spacing = LocalSpacing.current
     var state by remember { mutableIntStateOf(0) }
     val titles = listOf(stringResource(id = R.string.bookmarks_tab), stringResource(id = R.string.archived_tab))
+
+    LaunchedEffect(Unit) {
+        lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
+    }
+
     Column {
         PrimaryTabRow(
             selectedTabIndex = state,

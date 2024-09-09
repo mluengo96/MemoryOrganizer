@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -21,6 +22,11 @@ fun FolderScreen(
     lazyListState: LazyListState,
 ) {
     val spacing = LocalSpacing.current
+
+    LaunchedEffect(Unit) {
+        lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
+    }
+
     if (false) {
         EmptyFolderScreen()
     } else {

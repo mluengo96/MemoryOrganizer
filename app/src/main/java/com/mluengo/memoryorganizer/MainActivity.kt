@@ -61,7 +61,12 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     topBar = {
                         when (currentDestination) {
-                            Screen.Bookmarks.route -> { TopAppBar(title = stringResource(id = R.string.bookmarks_title)) }
+                            Screen.Bookmarks.route -> {
+                                TopAppBar(
+                                    title = stringResource(id = R.string.bookmarks_title),
+                                    lazyListState = lazyListState
+                                )
+                            }
                             Route.NEW_FOLDER -> {
                                 TopAppBar(
                                     title = stringResource(id = R.string.new_folder),
@@ -69,7 +74,8 @@ class MainActivity : ComponentActivity() {
                                     hasActionButton = true,
                                     actionIcon = Icons.Rounded.Close,
                                     actionIconContentDescription = stringResource(id = R.string.close),
-                                    onActionClick = { navController.navigateUp() }
+                                    onActionClick = { navController.navigateUp() },
+                                    lazyListState = lazyListState
                                 )
                             }
                             Route.FOLDER -> {
@@ -83,6 +89,7 @@ class MainActivity : ComponentActivity() {
                                     navigationIcon = Icons.AutoMirrored.Rounded.ArrowBack,
                                     navigationIconContentDescription = stringResource(id = R.string.back),
                                     onNavigationClick = { navController.navigateUp() },
+                                    lazyListState = lazyListState
                                 )
                             }
                         }
