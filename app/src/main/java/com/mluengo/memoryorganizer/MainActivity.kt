@@ -67,9 +67,15 @@ class MainActivity : ComponentActivity() {
                                     lazyListState = lazyListState
                                 )
                             }
-                            Route.NEW_FOLDER -> {
+                            Route.NEW_FOLDER, Route.NEW_ITEM -> {
+                                val titleResId = when (currentDestination) {
+                                    Route.NEW_FOLDER -> R.string.new_folder
+                                    Route.NEW_ITEM -> R.string.new_item
+                                    else -> { R.string.new_folder }
+                                }
+
                                 TopAppBar(
-                                    title = stringResource(id = R.string.new_folder),
+                                    title = stringResource(id = titleResId),
                                     hasNavigationButton = false,
                                     hasActionButton = true,
                                     actionIcon = Icons.Rounded.Close,
