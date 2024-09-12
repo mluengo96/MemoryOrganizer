@@ -62,6 +62,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material)
     implementation(libs.emoji2.emojipicker)
+    // Room
+    implementation(libs.androidx.room.ktx)
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.jsoup)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
