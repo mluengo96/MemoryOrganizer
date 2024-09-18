@@ -1,5 +1,6 @@
 package com.mluengo.memoryorganizer.ui.screens.bookmarks
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -27,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.BookmarksTabIndicator
+import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
@@ -35,6 +37,8 @@ import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 fun BookmarkScreen(
     navController: NavController,
     lazyListState: LazyListState,
+    isTopAppBarVisible: Boolean,
+    modifier: Modifier,
 ) {
     val spacing = LocalSpacing.current
     var state by remember { mutableIntStateOf(0) }
@@ -45,10 +49,15 @@ fun BookmarkScreen(
     }
 
     Column {
+        TopAppBar(
+            title = stringResource(id = R.string.bookmarks_title),
+            lazyListState = lazyListState,
+            isVisible = isTopAppBarVisible,
+        )
         PrimaryTabRow(
             selectedTabIndex = state,
             indicator = {
-                BookmarksTabIndicator(Modifier.tabIndicatorOffset(state))
+                BookmarksTabIndicator(modifier = modifier.tabIndicatorOffset(state))
             },
         ) {
             titles.forEachIndexed { index, title ->
@@ -93,25 +102,22 @@ fun BookmarkScreen(
                 )
             }
         }
-        when (state) {
-            0 -> {
-                BookmarksTab(
-                    lazyListState = lazyListState
-                )
-            }
-            1 -> {
-                ArchivesTab()
+        AnimatedContent(
+            targetState = state,
+            label = "Tab animation"
+        ) { targetState ->
+            when (targetState) {
+                0 -> {
+                    BookmarksTab(
+                        lazyListState = lazyListState
+                    )
+                }
+                1 -> {
+                    ArchivesTab()
+                }
             }
         }
     }
-
-    /*if (state != 1) {
-        Fab(
-            text = "New Folder",
-            onFabClick = { },
-            modifier = Modifier
-        )
-    }*/
 }
 
 @Preview(showBackground = true, device = "id:pixel_7a")
@@ -119,6 +125,8 @@ fun BookmarkScreen(
 fun BookmarksScreenPreview() {
     BookmarkScreen(
         navController = rememberNavController(),
-        lazyListState = rememberLazyListState()
+        lazyListState = rememberLazyListState(),
+        isTopAppBarVisible = true,
+        modifier = Modifier,
     )
 }
