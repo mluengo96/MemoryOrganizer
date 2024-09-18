@@ -1,11 +1,14 @@
 package com.mluengo.memoryorganizer.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,59 +32,60 @@ import kotlinx.coroutines.launch
 fun TopAppBar(
     title: String,
     hasNavigationButton: Boolean = false,
-    hasActionButton: Boolean = false,
-    navigationIcon: ImageVector? = null,
     navigationIconContentDescription: String? = null,
     actionIcon: ImageVector? = null,
     actionIconContentDescription: String? = null,
     onNavigationClick: () -> Unit = { },
     onActionClick: () -> Unit = { },
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    isVisible: Boolean,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val coroutineScope = rememberCoroutineScope()
 
-    CenterAlignedTopAppBar(
-        modifier = Modifier.clickable {
-            coroutineScope.launch {
-                lazyListState.animateScrollToItem(0)
-            }
-        },
-        title = {
-            Text(
-                text = title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                style = MemoryOrganizerTypography.titleLarge
-            )
-        },
-        navigationIcon = {
-            if (hasNavigationButton) {
-                IconButton(onClick = onNavigationClick) {
-                    if (navigationIcon != null) {
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = slideInVertically(initialOffsetY = { -it }),
+        exit = slideOutVertically(targetOffsetY = { -it }),
+    ) {
+        CenterAlignedTopAppBar(
+            modifier = Modifier.clickable {
+                coroutineScope.launch {
+                    lazyListState.animateScrollToItem(0)
+                }
+            },
+            title = {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MemoryOrganizerTypography.titleLarge
+                )
+            },
+            navigationIcon = {
+                if (hasNavigationButton) {
+                    IconButton(onClick = onNavigationClick) {
                         Icon(
-                            imageVector = navigationIcon,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = navigationIconContentDescription,
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
-            }
-        },
-        scrollBehavior = scrollBehavior,
-        actions = {
-            if (hasActionButton) {
-                IconButton(onClick = onActionClick) {
-                    if (actionIcon != null) {
+            },
+            //scrollBehavior = scrollBehavior,
+            actions = {
+                if (actionIcon != null) {
+                    IconButton(onClick = onActionClick) {
                         Icon(
                             imageVector = actionIcon,
                             contentDescription = actionIconContentDescription
                         )
                     }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Preview(showBackground = true, device = "id:pixel_7a")
@@ -89,10 +93,10 @@ fun TopAppBar(
 fun CenterAppBarPreview() {
     TopAppBar(
         title = stringResource(id = android.R.string.untitled),
-        navigationIcon = Icons.Rounded.Search,
         navigationIconContentDescription = "Navigation icon",
         actionIcon = Icons.Rounded.MoreVert,
         actionIconContentDescription = "Action icon",
-        lazyListState = rememberLazyListState()
+        lazyListState = rememberLazyListState(),
+        isVisible = true,
     )
 }

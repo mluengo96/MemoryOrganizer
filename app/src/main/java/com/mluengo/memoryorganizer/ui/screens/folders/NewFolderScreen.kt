@@ -14,10 +14,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -42,8 +45,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.emoji2.emojipicker.EmojiPickerView
 import androidx.emoji2.emojipicker.EmojiViewItem
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.MenuButton
+import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
@@ -51,7 +57,9 @@ import com.mluengo.memoryorganizer.ui.theme.outlineLight
 
 @Composable
 fun NewFolderScreen(
-
+    navController: NavController,
+    lazyListState: LazyListState,
+    isTopAppBarVisible: Boolean,
 ) {
     val spacing = LocalSpacing.current
     var showDialog by remember { mutableStateOf(false) }
@@ -61,18 +69,27 @@ fun NewFolderScreen(
 
     Column(
         Modifier
-            .fillMaxHeight()
-            .padding(
-                top = spacing.spaceMedium,
-                start = spacing.spaceMedium,
-                end = spacing.spaceMedium,
-                bottom = spacing.spaceLarge
-            ),
-        verticalArrangement = Arrangement.SpaceBetween
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Top
     ) {
+        TopAppBar(
+            title = stringResource(id = R.string.new_folder),
+            hasNavigationButton = false,
+            actionIcon = Icons.Rounded.Close,
+            actionIconContentDescription = stringResource(id = R.string.close),
+            onActionClick = { navController.navigateUp() },
+            lazyListState = lazyListState,
+            isVisible = isTopAppBarVisible,
+        )
+
         Column(
             modifier = Modifier
-                .weight(1f, false)
+                .padding(
+                    top = spacing.spaceMedium,
+                    start = spacing.spaceMedium,
+                    end = spacing.spaceMedium,
+                    bottom = spacing.spaceLarge
+                ),
         ) {
             Row(
                 modifier = Modifier
@@ -166,7 +183,13 @@ fun NewFolderScreen(
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(
+                    top = spacing.spaceMedium,
+                    start = spacing.spaceMedium,
+                    end = spacing.spaceMedium,
+                    bottom = spacing.spaceLarge
+                ),
             onClick = { /*TODO*/ }
         ) {
             Text(
@@ -216,5 +239,9 @@ fun NewFolderScreen(
 @Preview(showBackground = true, device = "id:pixel_7a")
 @Composable
 fun NewFolderScreenPreview() {
-    NewFolderScreen()
+    NewFolderScreen(
+        navController = rememberNavController(),
+        lazyListState = rememberLazyListState(),
+        isTopAppBarVisible = true,
+    )
 }

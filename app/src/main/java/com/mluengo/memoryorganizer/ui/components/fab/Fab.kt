@@ -1,4 +1,4 @@
-package com.mluengo.memoryorganizer.ui.components
+package com.mluengo.memoryorganizer.ui.components.fab
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Row

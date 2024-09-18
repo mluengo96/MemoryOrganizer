@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,15 +36,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.MenuButton
+import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewItemScreen(
-
+    navController: NavController,
+    lazyListState: LazyListState,
+    isTopAppBarVisible: Boolean,
 ) {
     val spacing = LocalSpacing.current
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -58,6 +66,16 @@ fun NewItemScreen(
             ),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        TopAppBar(
+            title = stringResource(id = R.string.new_item),
+            hasNavigationButton = false,
+            actionIcon = Icons.Rounded.Close,
+            actionIconContentDescription = stringResource(id = R.string.close),
+            onActionClick = { navController.navigateUp() },
+            lazyListState = lazyListState,
+            isVisible = isTopAppBarVisible,
+        )
+
         Column(
             modifier = Modifier
                 .weight(1f, false)
@@ -171,5 +189,9 @@ fun NewItemScreen(
 @Preview(showBackground = true, device = "id:pixel_7a")
 @Composable
 fun NNewItemScreenPreview() {
-    NewItemScreen()
+    NewItemScreen(
+        navController = rememberNavController(),
+        lazyListState = rememberLazyListState(),
+        isTopAppBarVisible = true,
+    )
 }
