@@ -218,7 +218,6 @@ class MainActivity : ComponentActivity() {
                                 lazyListState = lazyListState,
                                 isTopAppBarVisible = topBarState.value,
                             )
-
                         }
                         composable(
                             route = Route.NEW_ITEM,

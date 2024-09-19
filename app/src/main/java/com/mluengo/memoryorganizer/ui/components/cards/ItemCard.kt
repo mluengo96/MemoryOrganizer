@@ -1,4 +1,4 @@
-package com.mluengo.memoryorganizer.ui.components
+package com.mluengo.memoryorganizer.ui.components.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,25 +21,68 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.R
+import com.mluengo.memoryorganizer.domain.model.LinkViewState
+import com.mluengo.memoryorganizer.domain.model.fetchMetadata
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.onSurfaceVariantLight
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun ItemCard(
-
+    title: String,
+    description: String,
+    imageUrl: String,
 ) {
     val spacing = LocalSpacing.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var loadingState by remember {
+        mutableStateOf<LinkViewState>(LinkViewState.Loading)
+    }
+    val testLinks = listOf(
+        "https://not-valid-url", // --> Invalid URL
+        "https://m3.material.io/develop/android/jetpack-compose", // --> Valid URL
+        "https://expatexplore.com/blog/when-to-travel-weather-seasons/", // --> URL that does not contain image
+    )
+
+    LaunchedEffect(testLinks[0]) {
+        scope.launch(Dispatchers.IO) {
+            loadingState = fetchMetadata(testLinks[0])
+        }
+    }
+
+    when (val state = loadingState) {
+        is LinkViewState.Loading -> {
+            // TODO: Loading View
+        }
+        is LinkViewState.Success -> {
+            // TODO: Link View
+        }
+        is LinkViewState.Failure -> {
+            // TODO: Failure View
+        }
+    }
+    //val metadata = state.metadata
+
     OutlinedCard(
         onClick = { /* TODO */ }
     ) {
@@ -57,9 +100,9 @@ fun ItemCard(
                 Column(
                     modifier = Modifier.weight(1f) // Adjust weight for first set of Texts
                 ) {
-                    Text(text = "Tabler Icons: 5450+ free vector icons for web design", style = MemoryOrganizerTypography.titleSmall, overflow = TextOverflow.Ellipsis, minLines = 2)
+                    Text(text = title, style = MemoryOrganizerTypography.titleSmall, overflow = TextOverflow.Ellipsis, minLines = 2)
                     Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                    Text(text = "Tabler Icons", style = MemoryOrganizerTypography.labelSmall, color = onSurfaceVariantLight, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
+                    Text(text = description, style = MemoryOrganizerTypography.labelSmall, color = onSurfaceVariantLight, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
 
                 }
                 SourceCard()
@@ -107,5 +150,9 @@ fun ItemCard(
 @Preview(showBackground = false, device = "id:pixel_7a")
 @Composable
 fun ItemCardPreview() {
-    ItemCard()
+    ItemCard(
+        title = "Tabler Icons: 5450+ free vector icons for web design",
+        description = "Tabler Icons",
+        imageUrl = ""
+    )
 }

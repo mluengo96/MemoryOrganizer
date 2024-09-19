@@ -1,4 +1,4 @@
-package com.mluengo.memoryorganizer.ui.components
+package com.mluengo.memoryorganizer.ui.components.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,16 +18,16 @@ import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
+import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.tertiaryContainerLight
 
 @Composable
-fun SourceCard(
-) {
+fun SourceCard() {
     val spacing = LocalSpacing.current
     Surface(
         modifier = Modifier.height(32.dp),
         color = tertiaryContainerLight,
-        shape = CircleShape,
+        shape = Shapes.small,
     ) {
         Row(
             modifier = Modifier.padding(start = spacing.spaceSmall, end = spacing.spaceMedium),
