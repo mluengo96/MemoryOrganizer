@@ -4,10 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,17 +56,7 @@ fun NewItemScreen(
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
 
-    Column(
-        Modifier
-            .fillMaxHeight()
-            .padding(
-                top = spacing.spaceMedium,
-                start = spacing.spaceMedium,
-                end = spacing.spaceMedium,
-                bottom = spacing.spaceLarge
-            ),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
+    Column(Modifier.fillMaxSize()) {
         TopAppBar(
             title = stringResource(id = R.string.new_item),
             hasNavigationButton = false,
@@ -76,107 +67,126 @@ fun NewItemScreen(
             isVisible = isTopAppBarVisible,
         )
 
-        Column(
+        Box(
             modifier = Modifier
-                .weight(1f, false)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .weight(1f)
+                .fillMaxWidth()
         ) {
-            var titleText by rememberSaveable { mutableStateOf("") }
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = titleText,
-                onValueChange = { titleText = it },
-                placeholder = { Text(stringResource(id = R.string.edit_text_title)) },
-                singleLine = true,
-                supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
-                trailingIcon = {
-                    AnimatedVisibility(visible = titleText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
-                        IconButton(onClick = { titleText = "" }) {
-                            Icon(Icons.Rounded.Clear, "Clear")
-                        }
-                    }
-                }
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
-            var notesText by rememberSaveable { mutableStateOf("") }
-            val maxDescriptionSize = 150
-            OutlinedTextField(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp),
-                value = notesText,
-                onValueChange = { if (it.length <= maxDescriptionSize) notesText = it },
-                placeholder = { Text(stringResource(id = R.string.edit_text_notes)) },
-                singleLine = false,
-                supportingText = {
-                    Row {
-                        Spacer(Modifier.weight(1f))
-                        Text("${notesText.count()}/$maxDescriptionSize")
-                    }
-                }
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
-            var linkText by rememberSaveable { mutableStateOf("") }
+                    .padding(
+                        top = spacing.spaceMedium,
+                        start = spacing.spaceMedium,
+                        end = spacing.spaceMedium,
+                        bottom = spacing.spaceLarge
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                var titleText by rememberSaveable { mutableStateOf("") }
 
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = linkText,
-                onValueChange = { linkText = it },
-                placeholder = { Text(stringResource(id = R.string.edit_text_http)) },
-                singleLine = true,
-                supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
-                trailingIcon = {
-                    AnimatedVisibility(visible = linkText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
-                        IconButton(onClick = { linkText = "" }) {
-                            Icon(Icons.Rounded.Clear, "Clear")
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = titleText,
+                    onValueChange = { titleText = it },
+                    placeholder = { Text(stringResource(id = R.string.edit_text_title)) },
+                    singleLine = true,
+                    supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
+                    trailingIcon = {
+                        AnimatedVisibility(visible = titleText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
+                            IconButton(onClick = { titleText = "" }) {
+                                Icon(Icons.Rounded.Clear, "Clear")
+                            }
                         }
                     }
-                }
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
-
-            var checked by remember { mutableStateOf(true) }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = stringResource(id = R.string.new_item_add_to_folder),
-                    textAlign = TextAlign.Center,
-                    style = MemoryOrganizerTypography.bodyLarge,
                 )
-
-                Switch(
-                    checked = checked,
-                    onCheckedChange = { checked = it }
-                )
-            }
-
-            if (checked) {
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
-                MenuButton(
-                    label = R.string.new_item_folder,
-                    menuOptions = listOf(
-                        "Note taking app",
-                        "Jetpack Compose Resources",
-                        "Figma tutorials",
-                        "Blender Youtube Videos",
-                        "Twitter/X important posts",
-                        "Recipes",
-                        "Test",
-                        "Test but a test kinda long",
-                        "Test but a test that is actually super long",
-                    )
+                var notesText by rememberSaveable { mutableStateOf("") }
+                val maxDescriptionSize = 150
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
+                    value = notesText,
+                    onValueChange = { if (it.length <= maxDescriptionSize) notesText = it },
+                    placeholder = { Text(stringResource(id = R.string.edit_text_notes)) },
+                    singleLine = false,
+                    supportingText = {
+                        Row {
+                            Spacer(Modifier.weight(1f))
+                            Text("${notesText.count()}/$maxDescriptionSize")
+                        }
+                    }
                 )
+                Spacer(modifier = Modifier.height(spacing.spaceLarge))
+                var linkText by rememberSaveable { mutableStateOf("") }
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = linkText,
+                    onValueChange = { linkText = it },
+                    placeholder = { Text(stringResource(id = R.string.edit_text_http)) },
+                    singleLine = true,
+                    supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
+                    trailingIcon = {
+                        AnimatedVisibility(visible = linkText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
+                            IconButton(onClick = { linkText = "" }) {
+                                Icon(Icons.Rounded.Clear, "Clear")
+                            }
+                        }
+                    }
+                )
+                Spacer(modifier = Modifier.height(spacing.spaceLarge))
+
+                var checked by remember { mutableStateOf(true) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.new_item_add_to_folder),
+                        textAlign = TextAlign.Center,
+                        style = MemoryOrganizerTypography.bodyLarge,
+                    )
+
+                    Switch(
+                        checked = checked,
+                        onCheckedChange = { checked = it }
+                    )
+                }
+
+                if (checked) {
+                    Spacer(modifier = Modifier.height(spacing.spaceLarge))
+                    MenuButton(
+                        label = R.string.new_item_folder,
+                        menuOptions = listOf(
+                            "Note taking app",
+                            "Jetpack Compose Resources",
+                            "Figma tutorials",
+                            "Blender Youtube Videos",
+                            "Twitter/X important posts",
+                            "Recipes",
+                            "Test",
+                            "Test but a test kinda long",
+                            "Test but a test that is actually super long",
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.height(spacing.spaceLarge))
             }
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }
+
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = spacing.spaceMedium,
+                    start = spacing.spaceMedium,
+                    end = spacing.spaceMedium,
+                    bottom = spacing.spaceLarge
+                ),
             onClick = { /*TODO*/ }
         ) {
             Text(

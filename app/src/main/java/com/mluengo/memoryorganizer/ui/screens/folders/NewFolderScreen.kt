@@ -5,10 +5,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,11 +67,7 @@ fun NewFolderScreen(
         mutableStateOf(EmojiViewItem("", emptyList()))
     }
 
-    Column(
-        Modifier
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Top
-    ) {
+    Column(Modifier.fillMaxSize()) {
         TopAppBar(
             title = stringResource(id = R.string.new_folder),
             hasNavigationButton = false,
@@ -82,106 +78,115 @@ fun NewFolderScreen(
             isVisible = isTopAppBarVisible,
         )
 
-        Column(
+        Box(
             modifier = Modifier
-                .padding(
-                    top = spacing.spaceMedium,
-                    start = spacing.spaceMedium,
-                    end = spacing.spaceMedium,
-                    bottom = spacing.spaceLarge
-                ),
+                .weight(1f)
+                .fillMaxWidth()
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.spacedBy(spacing.spaceMedium),
+                    .fillMaxWidth()
+                    .padding(
+                        top = spacing.spaceMedium,
+                        start = spacing.spaceMedium,
+                        end = spacing.spaceMedium,
+                        bottom = spacing.spaceLarge
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                OutlinedIconButton(onClick = { showDialog = true }, modifier = Modifier.size(56.dp), shape = CircleShape, border = BorderStroke(1.dp, outlineLight)) {
-                    if (emojiViewItem.emoji.isEmpty()) {
-                        Icon(
-                            imageVector = Icons.Outlined.EmojiEmotions,
-                            contentDescription = "",
-                            modifier = Modifier.size(24.dp)
-                        )
-                    } else {
-                        Text(text = emojiViewItem.emoji)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.spacedBy(spacing.spaceMedium),
+                ) {
+                    OutlinedIconButton(onClick = { showDialog = true }, modifier = Modifier.size(56.dp), shape = CircleShape, border = BorderStroke(1.dp, outlineLight)) {
+                        if (emojiViewItem.emoji.isEmpty()) {
+                            Icon(
+                                imageVector = Icons.Outlined.EmojiEmotions,
+                                contentDescription = "",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        } else {
+                            Text(text = emojiViewItem.emoji)
+                        }
                     }
-                }
 
-                var titleText by rememberSaveable { mutableStateOf("") }
+                    var titleText by rememberSaveable { mutableStateOf("") }
 
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = titleText,
-                    onValueChange = { titleText = it },
-                    placeholder = { Text(stringResource(id = R.string.edit_text_title)) },
-                    singleLine = true,
-                    supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
-                    trailingIcon = {
-                        AnimatedVisibility(visible = titleText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
-                            IconButton(onClick = { titleText = "" }) {
-                                Icon(Icons.Rounded.Clear, "Clear")
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = titleText,
+                        onValueChange = { titleText = it },
+                        placeholder = { Text(stringResource(id = R.string.edit_text_title)) },
+                        singleLine = true,
+                        supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
+                        trailingIcon = {
+                            AnimatedVisibility(visible = titleText.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
+                                IconButton(onClick = { titleText = "" }) {
+                                    Icon(Icons.Rounded.Clear, "Clear")
+                                }
                             }
+                        }
+                    )
+
+                }
+                Spacer(modifier = Modifier.height(spacing.spaceLarge))
+
+                var descriptionText by rememberSaveable { mutableStateOf("") }
+                val maxDescriptionSize = 150
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
+                    value = descriptionText,
+                    onValueChange = { if (it.length <= maxDescriptionSize) descriptionText = it },
+                    placeholder = { Text(stringResource(id = R.string.edit_text_description)) },
+                    singleLine = false,
+                    supportingText = {
+                        Row {
+                            Spacer(Modifier.weight(1f))
+                            Text("${descriptionText.count()}/$maxDescriptionSize")
                         }
                     }
                 )
 
-            }
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
-
-            var descriptionText by rememberSaveable { mutableStateOf("") }
-            val maxDescriptionSize = 150
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp),
-                value = descriptionText,
-                onValueChange = { if (it.length <= maxDescriptionSize) descriptionText = it },
-                placeholder = { Text(stringResource(id = R.string.edit_text_description)) },
-                singleLine = false,
-                supportingText = {
-                    Row {
-                        Spacer(Modifier.weight(1f))
-                        Text("${descriptionText.count()}/$maxDescriptionSize")
-                    }
-                }
-            )
-
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
-
-            var checked by remember { mutableStateOf(false) }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = stringResource(id = R.string.new_folders_set_status),
-                    textAlign = TextAlign.Center,
-                    style = MemoryOrganizerTypography.bodyLarge,
-                )
-
-                Switch(
-                    checked = checked,
-                    onCheckedChange = { checked = it }
-                )
-            }
-
-            if (checked) {
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
-                MenuButton(
-                    label = R.string.new_folders_status,
-                    menuOptions = listOf(
-                        stringResource(id = R.string.new_folders_status_todo),
-                        stringResource(id = R.string.new_folders_status_in_progress),
-                        stringResource(id = R.string.new_folders_status_done),
+
+                var checked by remember { mutableStateOf(false) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.new_folders_set_status),
+                        textAlign = TextAlign.Center,
+                        style = MemoryOrganizerTypography.bodyLarge,
                     )
-                )
+
+                    Switch(
+                        checked = checked,
+                        onCheckedChange = { checked = it }
+                    )
+                }
+
+                if (checked) {
+                    Spacer(modifier = Modifier.height(spacing.spaceLarge))
+                    MenuButton(
+                        label = R.string.new_folders_status,
+                        menuOptions = listOf(
+                            stringResource(id = R.string.new_folders_status_todo),
+                            stringResource(id = R.string.new_folders_status_in_progress),
+                            stringResource(id = R.string.new_folders_status_done),
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.height(spacing.spaceLarge))
             }
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }
+
         Button(
             modifier = Modifier.fillMaxWidth()
                 .padding(
