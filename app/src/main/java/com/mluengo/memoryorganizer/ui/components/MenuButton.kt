@@ -84,7 +84,10 @@ fun MenuButton(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                val degrees by animateFloatAsState(if (isContextMenuVisible) -90f else 90f)
+                val degrees by animateFloatAsState(
+                    if (isContextMenuVisible) -90f else 90f,
+                    label = "Icon rotation"
+                )
                 if (statusText.isEmpty()) {
                     Text(text = stringResource(id = label))
                 } else {
@@ -102,7 +105,7 @@ fun MenuButton(
         DropdownMenu(
             expanded = isContextMenuVisible,
             onDismissRequest = { isContextMenuVisible = false },
-            offset = DpOffset(itemWidth, -itemHeight),
+            offset = DpOffset(itemWidth, itemHeight),
             modifier = Modifier.fillMaxWidth(.45f),
         ) {
             menuOptions.forEach { option: String ->
