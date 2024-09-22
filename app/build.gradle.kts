@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.jsoup)
     // Hilt
+    implementation(libs.dagger.hilt.compose)
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
 
