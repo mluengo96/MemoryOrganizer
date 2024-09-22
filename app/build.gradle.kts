@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -69,6 +71,9 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
     implementation(libs.jsoup)
+    // Hilt
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
