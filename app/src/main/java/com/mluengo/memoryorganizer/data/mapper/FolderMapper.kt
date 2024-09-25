@@ -1,0 +1,22 @@
+package com.mluengo.memoryorganizer.data.mapper
+
+import com.mluengo.memoryorganizer.data.local.entity.FolderEntity
+import com.mluengo.memoryorganizer.domain.model.Folder
+
+fun FolderEntity.toFolder(): Folder {
+    return Folder(
+        id = id,
+        title = title,
+        iconResId = iconResId,
+        itemList = itemList
+    )
+}
+
+fun Folder.toFolderEntity(): FolderEntity {
+    return FolderEntity(
+        id = id,
+        title = title,
+        iconResId = iconResId,
+        itemList = itemList
+    )
+}
