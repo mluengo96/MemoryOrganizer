@@ -1,8 +1,6 @@
 package com.mluengo.memoryorganizer.di
 
-import com.mluengo.memoryorganizer.domain.Preferences
 import com.mluengo.memoryorganizer.domain.repository.FolderRepository
-import com.mluengo.memoryorganizer.domain.repository.ItemRepository
 import com.mluengo.memoryorganizer.domain.use_case.AddFolder
 import com.mluengo.memoryorganizer.domain.use_case.DeleteFolder
 import com.mluengo.memoryorganizer.domain.use_case.GetFolders
@@ -21,8 +19,8 @@ object DomainModule {
     @Provides
     fun provideUseCases(
         folderRepository: FolderRepository,
-        itemRepository: ItemRepository,
-        preferences: Preferences
+        //itemRepository: ItemRepository,
+        //preferences: Preferences
     ): UseCases {
         return UseCases(
             addFolder = AddFolder(repository = folderRepository),

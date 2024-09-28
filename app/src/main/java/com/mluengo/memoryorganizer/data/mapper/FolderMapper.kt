@@ -7,6 +7,7 @@ fun FolderEntity.toFolder(): Folder {
     return Folder(
         id = id,
         title = title,
+        description = description,
         iconResId = iconResId,
         itemList = itemList
     )
@@ -16,6 +17,7 @@ fun Folder.toFolderEntity(): FolderEntity {
     return FolderEntity(
         id = id,
         title = title,
+        description = description,
         iconResId = iconResId,
         itemList = itemList
     )

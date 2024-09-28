@@ -1,6 +1,5 @@
 package com.mluengo.memoryorganizer.data.local.entity
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,6 +7,7 @@ import androidx.room.PrimaryKey
 data class FolderEntity(
     @PrimaryKey val id: Int? = null,
     val title: String,
-    val iconResId: ImageVector?,
+    val description: String,
+    val iconResId: Int?,
     val itemList: List<Int>
 )

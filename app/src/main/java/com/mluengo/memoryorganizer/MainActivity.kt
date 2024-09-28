@@ -43,7 +43,9 @@ import com.mluengo.memoryorganizer.ui.screens.folders.ItemScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.NewFolderScreen
 import com.mluengo.memoryorganizer.ui.screens.settings.SettingsScreen
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -217,6 +219,7 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 lazyListState = lazyListState,
                                 isTopAppBarVisible = topBarState.value,
+                                onNavigateUp = navController::navigateUp
                             )
                         }
                         composable(

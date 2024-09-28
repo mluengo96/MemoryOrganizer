@@ -66,15 +66,24 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material)
     implementation(libs.emoji2.emojipicker)
+
     // Room
     implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
     // Coil
     implementation(libs.coil.compose)
     implementation(libs.jsoup)
+    
     // Hilt
     implementation(libs.dagger.hilt.compose)
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
+
+    // Retrofit & OkHttp
+    implementation(libs.square.retrofit)
+    implementation(libs.square.moshi)
+    implementation(libs.square.okhttp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
