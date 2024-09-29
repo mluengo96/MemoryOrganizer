@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +44,7 @@ fun TopAppBar(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     AnimatedVisibility(
         visible = isVisible,
@@ -64,7 +67,12 @@ fun TopAppBar(
             },
             navigationIcon = {
                 if (hasNavigationButton) {
-                    IconButton(onClick = onNavigationClick) {
+                    IconButton(
+                        onClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onNavigationClick()
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = navigationIconContentDescription,
@@ -76,7 +84,12 @@ fun TopAppBar(
             //scrollBehavior = scrollBehavior,
             actions = {
                 if (actionIcon != null) {
-                    IconButton(onClick = onActionClick) {
+                    IconButton(
+                        onClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onActionClick()
+                        }
+                    ) {
                         Icon(
                             imageVector = actionIcon,
                             contentDescription = actionIconContentDescription

@@ -38,7 +38,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -75,6 +77,7 @@ fun NewFolderScreen(
     val spacing = LocalSpacing.current
     val state = viewModel.state
     val context = LocalContext.current
+    val hapticFeedback = LocalHapticFeedback.current
 
     var showDialog by remember { mutableStateOf(false) }
     var emojiViewItem by remember {
@@ -226,6 +229,7 @@ fun NewFolderScreen(
                     bottom = spacing.spaceLarge
                 ),
             onClick = {
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 viewModel.onEvent(
                     FolderEvent.OnCreateFolderClick(
                         title = state.title,

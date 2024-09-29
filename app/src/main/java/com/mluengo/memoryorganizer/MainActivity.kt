@@ -27,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -58,6 +60,7 @@ class MainActivity : ComponentActivity() {
                 val currentBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = currentBackStackEntry?.destination?.route
                 val lazyListState = rememberLazyListState()
+                val hapticFeedback = LocalHapticFeedback.current
 
                 // State of topBar, set state to false, if current page route is "car_details"
                 val topBarState = rememberSaveable { (mutableStateOf(true)) }
@@ -100,7 +103,10 @@ class MainActivity : ComponentActivity() {
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
                                     resourceId = R.string.new_folder,
-                                    onFabClick = { navController.navigate(Route.NEW_FOLDER) },
+                                    onFabClick = {
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        navController.navigate(Route.NEW_FOLDER)
+                                    },
                                     modifier = Modifier
                                 )
                             }
@@ -109,7 +115,10 @@ class MainActivity : ComponentActivity() {
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
                                     resourceId = R.string.new_item,
-                                    onFabClick = { navController.navigate(Route.NEW_ITEM) },
+                                    onFabClick = {
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        navController.navigate(Route.NEW_ITEM)
+                                    },
                                     modifier = Modifier
                                 )
                             }
