@@ -171,7 +171,8 @@ fun NewItemScreen(
                             "Test",
                             "Test but a test kinda long",
                             "Test but a test that is actually super long",
-                        )
+                        ),
+                        onStatusClicked = { }
                     )
                 }
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))

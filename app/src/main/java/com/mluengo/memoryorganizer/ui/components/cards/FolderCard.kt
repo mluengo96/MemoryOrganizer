@@ -18,16 +18,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 
 @Composable
 fun FolderCard(
     onClick: () -> Unit,
-    title: String
+    title: String,
+    status: String,
+    itemSize: Int
 ) {
     val spacing = LocalSpacing.current
     OutlinedCard(
@@ -45,9 +49,9 @@ fun FolderCard(
             ) {
                 Icon(imageVector = Icons.Outlined.Folder, contentDescription = "Folder Card")
 
-                if (true) {
+                if (status.isNotBlank()) {
                     StatusCard(
-                        title = "In Progress"
+                        title = status
                     )
                 }
             }
@@ -59,9 +63,21 @@ fun FolderCard(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text(text = title, style = MaterialTheme.typography.headlineMedium, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                     Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
-                    Text(text = "10 items saved", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                    Text(
+                        text = pluralStringResource(R.plurals.folder_resources, itemSize, itemSize),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                 }
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(Icons.Rounded.MoreVert, contentDescription = "Localized description")
@@ -77,5 +93,7 @@ fun FolderCardPreview() {
     FolderCard(
         onClick = { },
         title = "Note taking app",
+        status = "In Progress",
+        itemSize = 10
     )
 }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.Clear
@@ -40,6 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,6 +60,7 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.outlineLight
+import com.mluengo.memoryorganizer.util.FolderStatus
 import com.mluengo.memoryorganizer.util.UiEvent
 
 @Composable
@@ -136,8 +140,6 @@ fun NewFolderScreen(
                         }
                     }
 
-                    //var titleText by rememberSaveable { mutableStateOf("") }
-
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = state.title,
@@ -151,12 +153,12 @@ fun NewFolderScreen(
                                     Icon(Icons.Rounded.Clear, "Clear")
                                 }
                             }
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, capitalization = KeyboardCapitalization.Sentences)
                     )
                 }
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
 
-                //var descriptionText by rememberSaveable { mutableStateOf("") }
                 val maxDescriptionSize = 150
                 OutlinedTextField(
                     modifier = Modifier
@@ -174,7 +176,8 @@ fun NewFolderScreen(
                             Spacer(Modifier.weight(1f))
                             Text("${state.description.count()}/$maxDescriptionSize")
                         }
-                    }
+                    },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, capitalization = KeyboardCapitalization.Sentences)
                 )
 
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
@@ -203,10 +206,11 @@ fun NewFolderScreen(
                     MenuButton(
                         label = R.string.new_folders_status,
                         menuOptions = listOf(
-                            stringResource(id = R.string.new_folders_status_todo),
-                            stringResource(id = R.string.new_folders_status_in_progress),
-                            stringResource(id = R.string.new_folders_status_done),
-                        )
+                            stringResource(id = FolderStatus.TODO.statusResId),
+                            stringResource(id = FolderStatus.IN_PROGRESS.statusResId),
+                            stringResource(id = FolderStatus.DONE.statusResId)
+                        ),
+                        onStatusClicked = viewModel::onStatusSelected
                     )
                 }
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
@@ -226,6 +230,7 @@ fun NewFolderScreen(
                     FolderEvent.OnCreateFolderClick(
                         title = state.title,
                         description = state.description,
+                        status = state.status,
                         iconResId = state.iconResId,
                         itemList = state.itemList
                     )

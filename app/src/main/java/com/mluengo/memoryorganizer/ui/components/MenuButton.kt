@@ -39,11 +39,13 @@ import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.outlineLight
+import com.mluengo.memoryorganizer.util.FolderStatus
 
 @Composable
 fun MenuButton(
     @StringRes label: Int,
-    menuOptions: List<String>
+    menuOptions: List<String>,
+    onStatusClicked: (String) -> Unit,
 ) {
     val spacing = LocalSpacing.current
     val density = LocalDensity.current
@@ -88,7 +90,7 @@ fun MenuButton(
                     if (isContextMenuVisible) -90f else 90f,
                     label = "Icon rotation"
                 )
-                if (statusText.isEmpty()) {
+                if (statusText.isBlank()) {
                     Text(text = stringResource(id = label))
                 } else {
                     Text(text = statusText)
@@ -113,6 +115,7 @@ fun MenuButton(
                     text = { Text(option) },
                     onClick = {
                         statusText = option
+                        onStatusClicked(option)
                         isContextMenuVisible = false
                     },
                 )
@@ -127,9 +130,10 @@ fun MenuButtonPreview() {
     MenuButton(
         R.string.new_folders_status,
         listOf(
-            "Todo",
-            "In Progress",
-            "Done"
-        )
+            stringResource(id = FolderStatus.TODO.statusResId),
+            stringResource(id = FolderStatus.IN_PROGRESS.statusResId),
+            stringResource(id = FolderStatus.DONE.statusResId)
+        ),
+        onStatusClicked = { },
     )
 }

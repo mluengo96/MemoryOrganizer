@@ -49,9 +49,8 @@ class NewFolderViewModel @Inject constructor(
         state = state.copy(title = "")
     }
 
-    // TODO
-    fun onStatusSelected() {
-
+    fun onStatusSelected(status: String) {
+        state = state.copy(status = status)
     }
 
     private fun createFolder(event: FolderEvent.OnCreateFolderClick) {
@@ -59,6 +58,7 @@ class NewFolderViewModel @Inject constructor(
             useCases.addFolder(
                 title = event.title,
                 description = event.description,
+                status = event.status,
                 iconResId = event.iconResId,
                 itemList = event.itemList
             )

@@ -4,10 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.navigation.Route
@@ -20,15 +23,18 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 fun FolderScreen(
     navController: NavController,
     lazyListState: LazyListState,
+    viewModel: FoldersViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
+    val state = viewModel.state
+    val context = LocalContext.current
 
     // Ensure the list always starts at the top when entering this screen
     LaunchedEffect(Unit) {
         lazyListState.scrollToItem(0)
     }
 
-    if (true) {
+    if (state.createdFolders.isEmpty()) {
         EmptyFolderScreen()
     } else {
         LazyColumn(
@@ -41,10 +47,12 @@ fun FolderScreen(
             }
 
             // Add 5 items
-            items(5) {
+            items(state.createdFolders) { folder ->
                 FolderCard(
                     onClick = { navController.navigate(Route.FOLDER) },
-                    title = "Note taking app"
+                    title = folder.title,
+                    status = folder.status,
+                    itemSize = folder.itemList.size
                 )
             }
         }

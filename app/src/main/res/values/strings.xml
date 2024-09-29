@@ -31,12 +31,19 @@
     <!-- Folders Screen -->
     <string name="folders_title">Welcome\nBack</string>
 
+    <!-- Folder -->
+    <plurals name="folder_resources">
+        <item quantity="one">%1$d bookmark saved</item>
+        <item quantity="other">%1$d bookmarks saved</item>
+    </plurals>
+
     <!-- New Folders Screen -->
     <string name="new_folders_status">Status</string>
     <string name="new_folders_set_status">Set status</string>
     <string name="new_folders_create">Create new folder</string>
 
     <!-- Folder status -->
+    <string name="new_folders_status_none">None</string>
     <string name="new_folders_status_todo">Todo</string>
     <string name="new_folders_status_in_progress">In progress</string>
     <string name="new_folders_status_done">Done</string>

@@ -9,6 +9,7 @@ class AddFolder(
     suspend operator fun invoke(
         title: String,
         description: String,
+        status: String,
         iconResId: Int?,
         itemList: List<Int>
     ) {
@@ -16,6 +17,7 @@ class AddFolder(
             Folder(
                 title = title,
                 description = description,
+                status = status,
                 iconResId = iconResId,
                 itemList = itemList
             )
