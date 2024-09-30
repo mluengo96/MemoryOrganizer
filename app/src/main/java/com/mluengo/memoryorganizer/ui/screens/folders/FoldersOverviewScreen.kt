@@ -23,7 +23,7 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 fun FolderScreen(
     navController: NavController,
     lazyListState: LazyListState,
-    viewModel: FoldersViewModel = hiltViewModel()
+    viewModel: FoldersOverviewViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
     val state = viewModel.state

@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class FoldersViewModel @Inject constructor(
+class FoldersOverviewViewModel @Inject constructor(
     //preferences: Preferences,
     private val useCases: UseCases
 ): ViewModel() {
