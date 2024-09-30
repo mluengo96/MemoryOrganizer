@@ -150,6 +150,7 @@ fun NewFolderScreen(
                         placeholder = { Text(stringResource(id = R.string.edit_text_title)) },
                         singleLine = true,
                         supportingText = { Text(stringResource(id = R.string.edit_text_required)) },
+                        isError = viewModel.titleIsEmpty,
                         trailingIcon = {
                             AnimatedVisibility(visible = state.title.isNotBlank(), enter = fadeIn(), exit = fadeOut()) {
                                 IconButton(onClick = viewModel::onTitleCleared) {
@@ -239,7 +240,8 @@ fun NewFolderScreen(
                         itemList = state.itemList
                     )
                 )
-            }
+            },
+            enabled = !viewModel.titleIsEmpty
         ) {
             Text(
                 text = stringResource(id = R.string.new_folders_create),
