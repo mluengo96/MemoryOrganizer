@@ -4,13 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -33,6 +30,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.mluengo.memoryorganizer.navigation.NavigationActions
 import com.mluengo.memoryorganizer.navigation.Route
 import com.mluengo.memoryorganizer.ui.AppState
 import com.mluengo.memoryorganizer.ui.components.NavigationBar
@@ -40,7 +39,7 @@ import com.mluengo.memoryorganizer.ui.components.fab.Fab
 import com.mluengo.memoryorganizer.ui.rememberAppState
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.BookmarkScreen
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.NewItemScreen
-import com.mluengo.memoryorganizer.ui.screens.folders.FolderScreen
+import com.mluengo.memoryorganizer.ui.screens.folders.FoldersOverviewScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.ItemScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.NewFolderScreen
 import com.mluengo.memoryorganizer.ui.screens.settings.SettingsScreen
@@ -61,27 +60,30 @@ class MainActivity : ComponentActivity() {
                 val currentDestination = currentBackStackEntry?.destination?.route
                 val lazyListState = rememberLazyListState()
                 val hapticFeedback = LocalHapticFeedback.current
+                val navigationActions = remember(navController) {
+                    NavigationActions(navController)
+                }
 
                 // State of topBar, set state to false, if current page route is "car_details"
                 val topBarState = rememberSaveable { (mutableStateOf(true)) }
 
                 when (currentDestination) {
-                    Route.FOLDERS -> {
+                    Route.Folders::class.qualifiedName -> {
                         appState.setShowBottomBar(true)
                         topBarState.value = false
                     }
 
-                    Route.FOLDER -> {
+                    Route.Folder::class.qualifiedName -> {
                         appState.setShowBottomBar(false)
                         topBarState.value = true
                     }
 
-                    Route.BOOKMARKS -> {
+                    Route.Bookmarks::class.qualifiedName -> {
                         appState.setShowBottomBar(true)
                         topBarState.value = true
                     }
 
-                    Route.NEW_FOLDER, Route.NEW_ITEM -> {
+                    Route.NewFolder::class.qualifiedName, Route.NewItem::class.qualifiedName -> {
                         appState.setShowBottomBar(false)
                         topBarState.value = true
                     }
@@ -95,29 +97,30 @@ class MainActivity : ComponentActivity() {
                         NavigationBar(
                             navController = navController,
                             shouldShowBottomBar = appState.shouldShowBottomBar,
+                            navigateToTopLevelDestination = navigationActions::navigateTo,
                         )
                     },
                     floatingActionButton = {
                         when (currentDestination) {
-                            Route.FOLDERS -> {
+                            Route.Folders::class.qualifiedName -> {
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
                                     resourceId = R.string.new_folder,
                                     onFabClick = {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        navController.navigate(Route.NEW_FOLDER)
+                                        navController.navigate(Route.NewFolder)
                                     },
                                     modifier = Modifier
                                 )
                             }
 
-                            Route.FOLDER, Route.BOOKMARKS -> {
+                            Route.Folder::class.qualifiedName, Route.Bookmarks::class.qualifiedName -> {
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
                                     resourceId = R.string.new_item,
                                     onFabClick = {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        navController.navigate(Route.NEW_ITEM)
+                                        navController.navigate(Route.NewItem)
                                     },
                                     modifier = Modifier
                                 )
@@ -127,54 +130,29 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Route.FOLDERS,
+                        startDestination = Route.Folders,
+                        enterTransition = { slideInVertically { it / 16 } + fadeIn() },
+                        exitTransition = { fadeOut(tween(0)) },
+                        popEnterTransition = { slideInVertically { it / 16 } + fadeIn() },
+                        popExitTransition = { fadeOut(tween(0)) },
                         modifier = Modifier
                             .padding(innerPadding)
-                            .consumeWindowInsets(innerPadding)
+                            .consumeWindowInsets(innerPadding),
                     ) {
-                        composable(
-                            route = Route.FOLDERS,
-                            enterTransition = {
-                                fadeIn(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideIntoContainer(
-                                    animationSpec = tween(300, easing = EaseIn),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                                )
-                            },
-                            exitTransition = {
-                                fadeOut(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideOutOfContainer(
-                                    animationSpec = tween(300, easing = EaseOut),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                                )
-                            },
-                        ) {
-                            FolderScreen(
+                        composable<Route.Folders> {
+                            FoldersOverviewScreen(
                                 navController = navController,
-                                lazyListState = lazyListState
+                                lazyListState = lazyListState,
+                                onFolderClick = { folderId ->
+                                    navController.navigate(
+                                        Route.Folder(
+                                            id = folderId
+                                        )
+                                    )
+                                }
                             )
                         }
-                        composable(
-                            route = Route.BOOKMARKS,
-                            enterTransition = {
-                                fadeIn(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideIntoContainer(
-                                    animationSpec = tween(300, easing = EaseIn),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                                )
-                            },
-                            exitTransition = {
-                                fadeOut(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideOutOfContainer(
-                                    animationSpec = tween(300, easing = EaseOut),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                                )
-                            },
-                        ) {
+                        composable<Route.Bookmarks> {
                             BookmarkScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
@@ -184,46 +162,10 @@ class MainActivity : ComponentActivity() {
                                     .consumeWindowInsets(innerPadding)
                             )
                         }
-                        composable(
-                            route = Route.SETTINGS,
-                            enterTransition = {
-                                fadeIn(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideIntoContainer(
-                                    animationSpec = tween(300, easing = EaseIn),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                                )
-                            },
-                            exitTransition = {
-                                fadeOut(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideOutOfContainer(
-                                    animationSpec = tween(300, easing = EaseOut),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                                )
-                            },
-                        ) {
+                        composable<Route.Settings> {
                             SettingsScreen(navController)
                         }
-                        composable(
-                            route = Route.NEW_FOLDER,
-                            enterTransition = {
-                                fadeIn(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideIntoContainer(
-                                    animationSpec = tween(300, easing = EaseIn),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Up
-                                )
-                            },
-                            exitTransition = {
-                                fadeOut(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideOutOfContainer(
-                                    animationSpec = tween(300, easing = EaseOut),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Down
-                                )
-                            },
-                        ) {
+                        composable<Route.NewFolder> {
                             NewFolderScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
@@ -231,36 +173,20 @@ class MainActivity : ComponentActivity() {
                                 onNavigateUp = navController::navigateUp
                             )
                         }
-                        composable(
-                            route = Route.NEW_ITEM,
-                            enterTransition = {
-                                fadeIn(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideIntoContainer(
-                                    animationSpec = tween(300, easing = EaseIn),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Up
-                                )
-                            },
-                            exitTransition = {
-                                fadeOut(
-                                    animationSpec = tween(300, easing = LinearEasing)
-                                ) + slideOutOfContainer(
-                                    animationSpec = tween(300, easing = EaseOut),
-                                    towards = AnimatedContentTransitionScope.SlideDirection.Down
-                                )
-                            },
-                        ) {
+                        composable<Route.NewItem> {
                             NewItemScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
                                 isTopAppBarVisible = topBarState.value,
                             )
                         }
-                        composable(Route.FOLDER) {
+                        composable<Route.Folder> {
+                            val args = it.toRoute<Route.Folder>()
                             ItemScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
-                                isTopAppBarVisible = topBarState.value
+                                isTopAppBarVisible = topBarState.value,
+                                folderId = args.id,
                             )
                         }
                     }

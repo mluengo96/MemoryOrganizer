@@ -11,26 +11,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mluengo.memoryorganizer.navigation.Screen
+import com.mluengo.memoryorganizer.navigation.TOP_LEVEL_DESTINATIONS
+import com.mluengo.memoryorganizer.navigation.TopLevelDestination
 
 @Composable
 fun NavigationBar(
     navController: NavHostController,
     shouldShowBottomBar: Boolean,
+    navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-
-    val items = listOf(
-        Screen.Folders,
-        Screen.Bookmarks,
-        Screen.Settings
-    )
 
    AnimatedVisibility(
        visible = shouldShowBottomBar,
@@ -38,36 +34,25 @@ fun NavigationBar(
        exit = slideOutVertically(targetOffsetY = { it })
    ) {
        NavigationBar {
-           items.forEach { screen ->
+           TOP_LEVEL_DESTINATIONS.forEach { screen ->
                NavigationBarItem(
                    icon = {
-                       if (currentDestination?.hierarchy?.any { it.route == screen.route } == true)
+                       if (currentDestination.hasRoute(screen))
                            Icon(imageVector = screen.selectedIcon, contentDescription = stringResource(id = screen.resourceId))
                        else
                            Icon(imageVector = screen.unselectedIcon, contentDescription = stringResource(id = screen.resourceId))
                    },
                    label = { Text(text = stringResource(id = screen.resourceId)) },
-                   selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                   onClick = {
-                       navController.navigate(screen.route) {
-                           // Pop up to the start destination of the graph to
-                           // avoid building up a large stack of destinations
-                           // on the back stack as users select items
-                           popUpTo(navController.graph.findStartDestination().id) {
-                               saveState = true
-                           }
-                           // Avoid multiple copies of the same destination when
-                           // re-selecting the same item
-                           launchSingleTop = true
-                           // Restore state when re-selecting a previously selected item
-                           restoreState = true
-                       }
-                   }
+                   selected = currentDestination.hasRoute(screen),
+                   onClick = { navigateToTopLevelDestination(screen) }
                )
            }
        }
    }
 }
+
+fun NavDestination?.hasRoute(destination: TopLevelDestination): Boolean =
+    this?.hasRoute(destination.route::class) ?: false
 
 @Preview()
 @Composable
@@ -76,6 +61,7 @@ fun NavigationBarPreview(
 ) {
     NavigationBar(
         navController = rememberNavController(),
-        shouldShowBottomBar = true
+        shouldShowBottomBar = true,
+        navigateToTopLevelDestination = { }
     )
 }
