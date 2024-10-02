@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -66,6 +67,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material)
     implementation(libs.emoji2.emojipicker)
+    implementation(libs.kotlinx.serialization.json)
 
     // Room
     implementation(libs.androidx.room.ktx)
