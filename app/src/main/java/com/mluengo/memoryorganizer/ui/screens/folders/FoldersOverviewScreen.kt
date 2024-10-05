@@ -13,8 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.ui.components.HeaderFolders
 import com.mluengo.memoryorganizer.ui.components.cards.FolderCard
 import com.mluengo.memoryorganizer.ui.components.empty.EmptyFolderScreen
@@ -22,7 +20,6 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 
 @Composable
 fun FoldersOverviewScreen(
-    navController: NavController,
     lazyListState: LazyListState,
     onFolderClick: (Int) -> Unit,
     viewModel: FoldersOverviewViewModel = hiltViewModel()
@@ -49,7 +46,6 @@ fun FoldersOverviewScreen(
                     HeaderFolders()
                 }
 
-                // Add 5 items
                 items((foldersState as FoldersOverviewUiState.Success).createdFolders) { folder ->
                     FolderCard(
                         onClick = { onFolderClick(folder.id ?: -1) },
@@ -67,7 +63,6 @@ fun FoldersOverviewScreen(
 @Composable
 fun FolderScreenPreview() {
     FoldersOverviewScreen(
-        navController = rememberNavController(),
         lazyListState = rememberLazyListState(),
         onFolderClick = { }
     )

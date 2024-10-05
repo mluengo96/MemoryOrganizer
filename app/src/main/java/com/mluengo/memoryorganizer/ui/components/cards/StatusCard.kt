@@ -21,7 +21,7 @@ fun StatusCard(
 ) {
     val spacing = LocalSpacing.current
     Surface(
-        modifier = Modifier.height(32.dp),
+        modifier = Modifier.height(spacing.spaceLarge),
         color = MaterialTheme.colorScheme.tertiaryContainer,
         shape = RoundedCornerShape(8.dp),
     ) {

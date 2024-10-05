@@ -141,7 +141,6 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable<Route.Folders> {
                             FoldersOverviewScreen(
-                                navController = navController,
                                 lazyListState = lazyListState,
                                 onFolderClick = { folderId ->
                                     navController.navigate(
