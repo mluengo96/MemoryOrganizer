@@ -1,49 +1,39 @@
 package com.mluengo.memoryorganizer.ui.screens.folders
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mluengo.memoryorganizer.domain.model.Folder
 import com.mluengo.memoryorganizer.domain.use_case.UseCases
-import com.mluengo.memoryorganizer.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class FoldersOverviewViewModel @Inject constructor(
     //preferences: Preferences,
-    private val useCases: UseCases
+    useCases: UseCases
 ): ViewModel() {
-    var state by mutableStateOf(FoldersOverviewState())
-        private set
 
-    private val _uiEvent = Channel<UiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
-    private var getFoldersJob: Job? = null
+    val foldersUiState: StateFlow<FoldersOverviewUiState> =
+        useCases.getFolders()
+            .map { FoldersOverviewUiState.Success(createdFolders = it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = FoldersOverviewUiState.Loading
+            )
 
     // TODO: We don't show onboarding in next app launches
-    init {
-        getFolders()
-        // TODO: preferences.saveShouldShowOnboarding(false)
-    }
+    // TODO: preferences.saveShouldShowOnboarding(false)
+}
 
-    private fun getFolders() {
-        getFoldersJob?.cancel()
-        getFoldersJob = useCases
-            .getFolders()
-            .onEach { folders ->
-                state = state.copy(
-                    createdFolders = folders
-                )
-            }
-            .launchIn(viewModelScope)
-
-    }
+@Stable
+sealed interface FoldersOverviewUiState {
+    data object Empty : FoldersOverviewUiState
+    data object Loading : FoldersOverviewUiState
+    data class Success(val createdFolders: List<Folder>) : FoldersOverviewUiState
 }
