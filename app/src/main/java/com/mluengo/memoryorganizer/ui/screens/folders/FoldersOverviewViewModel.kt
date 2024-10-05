@@ -20,7 +20,10 @@ class FoldersOverviewViewModel @Inject constructor(
 
     val foldersUiState: StateFlow<FoldersOverviewUiState> =
         useCases.getFolders()
-            .map { FoldersOverviewUiState.Success(createdFolders = it) }
+            .map { folders ->
+                if (folders.isEmpty()) FoldersOverviewUiState.Empty
+                else FoldersOverviewUiState.Success(createdFolders = folders)
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
