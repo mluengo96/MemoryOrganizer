@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
@@ -38,8 +39,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -56,6 +59,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
+import com.mluengo.memoryorganizer.domain.model.Folder
 import com.mluengo.memoryorganizer.ui.components.MenuButton
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
@@ -64,7 +68,10 @@ import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.outlineLight
 import com.mluengo.memoryorganizer.util.FolderStatus
 import com.mluengo.memoryorganizer.util.UiEvent
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun NewFolderScreen(
     navController: NavController,
@@ -78,6 +85,7 @@ fun NewFolderScreen(
     val state = viewModel.state
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
+    val focusManager = LocalFocusManager.current
 
     var showDialog by remember { mutableStateOf(false) }
     var emojiViewItem by remember {
@@ -158,7 +166,12 @@ fun NewFolderScreen(
                                 }
                             }
                         },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, capitalization = KeyboardCapitalization.Sentences)
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, capitalization = KeyboardCapitalization.Sentences),
+                        keyboardActions = KeyboardActions(
+                            onNext = {
+                                focusManager.moveFocus(FocusDirection.Down)
+                            }
+                        )
                     )
                 }
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
@@ -181,7 +194,12 @@ fun NewFolderScreen(
                             Text("${state.description.count()}/$maxDescriptionSize")
                         }
                     },
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, capitalization = KeyboardCapitalization.Sentences)
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, capitalization = KeyboardCapitalization.Sentences),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
@@ -233,11 +251,14 @@ fun NewFolderScreen(
                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 viewModel.onEvent(
                     FolderEvent.OnCreateFolderClick(
-                        title = state.title,
-                        description = state.description,
-                        status = state.status,
-                        iconResId = state.iconResId,
-                        itemList = state.itemList
+                        Folder(
+                            id = Uuid.random().toString(),
+                            title = state.title,
+                            description = state.description,
+                            status = state.status,
+                            iconResId = state.iconResId,
+                            itemList = state.itemList
+                        )
                     )
                 )
             },

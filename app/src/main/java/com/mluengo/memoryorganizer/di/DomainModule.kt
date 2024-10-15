@@ -3,6 +3,7 @@ package com.mluengo.memoryorganizer.di
 import com.mluengo.memoryorganizer.domain.repository.FolderRepository
 import com.mluengo.memoryorganizer.domain.use_case.AddFolder
 import com.mluengo.memoryorganizer.domain.use_case.DeleteFolder
+import com.mluengo.memoryorganizer.domain.use_case.GetFolderDetail
 import com.mluengo.memoryorganizer.domain.use_case.GetFolders
 import com.mluengo.memoryorganizer.domain.use_case.UseCases
 import dagger.Module
@@ -25,6 +26,7 @@ object DomainModule {
         return UseCases(
             addFolder = AddFolder(repository = folderRepository),
             deleteFolder = DeleteFolder(repository = folderRepository),
+            getFolderDetail = GetFolderDetail(repository = folderRepository),
             getFolders = GetFolders(repository = folderRepository),
             /*addItem = AddItem(repository = itemRepository),
             deleteItem = DeleteItem(repository = itemRepository),

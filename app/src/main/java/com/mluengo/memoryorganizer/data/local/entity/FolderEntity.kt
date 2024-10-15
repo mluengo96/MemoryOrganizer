@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class FolderEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @PrimaryKey val id: String,
     val title: String,
     val description: String,
     val status: String,
     val iconResId: Int?,
-    val itemList: List<Int>
+    val itemList: List<String>
 )

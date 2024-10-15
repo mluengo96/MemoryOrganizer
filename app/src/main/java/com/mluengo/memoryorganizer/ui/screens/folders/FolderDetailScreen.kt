@@ -15,15 +15,18 @@ import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.ui.components.cards.ItemCard
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
+import com.mluengo.memoryorganizer.ui.components.cards.ItemCard
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
@@ -32,56 +35,65 @@ fun ItemScreen(
     navController: NavController,
     lazyListState: LazyListState,
     isTopAppBarVisible: Boolean,
+    viewModel: FolderDetailViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
+    val folderDetailState by viewModel.folderDetailUiState.collectAsStateWithLifecycle()
+    //if (folder.folderId != null) viewModel.onEvent(event = FolderEvent.OnGetFolderDetails(folder.folderId))
+
     LaunchedEffect(Unit) {
         lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Top
-    ) {
-        TopAppBar(
-            title = "Folder's name",
-            hasNavigationButton = true,
-            actionIcon = Icons.Rounded.MoreVert,
-            actionIconContentDescription = stringResource(id = R.string.edit),
-            onActionClick = { /* TODO */ },
-            navigationIconContentDescription = stringResource(id = R.string.back),
-            onNavigationClick = { navController.navigateUp() },
-            lazyListState = lazyListState,
-            isVisible = isTopAppBarVisible,
-        )
-        Column {
-            LazyColumn(
-                contentPadding = PaddingValues(spacing.spaceMedium),
-                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                state = lazyListState
+    when (folderDetailState) {
+        FolderDetailUiState.Error -> TODO()
+        FolderDetailUiState.Loading -> { Unit }
+        is FolderDetailUiState.Success -> {
+            val details = (folderDetailState as FolderDetailUiState.Success).folder
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Top
             ) {
-                item {
-                    Text(
-                        text = "Lorem ipsum dolor sit amet consectetur adipiscing elit montes, interdum odio massa ultricies feugiat penatibus per dignissim, gravida urna mus neque consequat orci congue. Hac aptent inceptos lacinia rhoncus torquent donec etiam maecenas vulputate egestas, pharetra rutrum accumsan libero commodo imperdiet iaculis sociosqu turpis. Himenaeos duis habitasse lobortis, ligula conubia.",
-                        textAlign = TextAlign.Start,
-                        style = MemoryOrganizerTypography.bodyMedium,
-                    )
-                    Spacer(modifier = Modifier.height(spacing.spaceLarge))
-                }
-
-                val testLinks = listOf(
-                    "https://not-valid-url", // --> Invalid URL
-                    "https://m3.material.io/develop/android/jetpack-compose", // --> Valid URL
-                    "https://expatexplore.com/blog/when-to-travel-weather-seasons/", // --> URL that does not contain image
+                TopAppBar(
+                    title = details.title,
+                    hasNavigationButton = true,
+                    actionIcon = Icons.Rounded.MoreVert,
+                    actionIconContentDescription = stringResource(id = R.string.edit),
+                    onActionClick = { /* TODO */ },
+                    navigationIconContentDescription = stringResource(id = R.string.back),
+                    onNavigationClick = { navController.navigateUp() },
+                    lazyListState = lazyListState,
+                    isVisible = isTopAppBarVisible,
                 )
+                Column {
+                    LazyColumn(
+                        contentPadding = PaddingValues(spacing.spaceMedium),
+                        verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                        state = lazyListState
+                    ) {
+                        item {
+                            Text(
+                                text = details.description,
+                                textAlign = TextAlign.Start,
+                                style = MemoryOrganizerTypography.bodyMedium,
+                            )
+                            Spacer(modifier = Modifier.height(spacing.spaceLarge))
+                        }
 
-                // Add 5 items
-                items(testLinks) { link ->
-                    ItemCard(
-                        title = "",
-                        description = "",
-                        imageUrl = ""
-                    )
+                        val testLinks = listOf(
+                            "https://not-valid-url", // --> Invalid URL
+                            "https://m3.material.io/develop/android/jetpack-compose", // --> Valid URL
+                            "https://expatexplore.com/blog/when-to-travel-weather-seasons/", // --> URL that does not contain image
+                        )
+
+                        // Add 5 items
+                        items(testLinks) { link ->
+                            ItemCard(
+                                link = link,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -94,6 +106,6 @@ fun ItemScreenPreview() {
     ItemScreen(
         navController = rememberNavController(),
         lazyListState = rememberLazyListState(),
-        isTopAppBarVisible = true
+        isTopAppBarVisible = true,
     )
 }

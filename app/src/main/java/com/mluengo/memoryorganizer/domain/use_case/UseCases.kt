@@ -4,6 +4,7 @@ data class UseCases(
     val addFolder: AddFolder,
     val deleteFolder: DeleteFolder,
     val getFolders: GetFolders,
+    val getFolderDetail: GetFolderDetail,
 
     /*val addItem: AddItem,
     val deleteItem: DeleteItem,

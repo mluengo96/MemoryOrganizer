@@ -35,6 +35,7 @@ class NewFolderViewModel @Inject constructor(
             is FolderEvent.OnCreateFolderClick -> {
                 createFolder(event)
             }
+            else -> Unit
         }
     }
 
@@ -61,11 +62,7 @@ class NewFolderViewModel @Inject constructor(
     private fun createFolder(event: FolderEvent.OnCreateFolderClick) {
         viewModelScope.launch {
             useCases.addFolder(
-                title = event.title,
-                description = event.description,
-                status = event.status,
-                iconResId = event.iconResId,
-                itemList = event.itemList
+                event.folder
             )
             _uiEvent.send(UiEvent.NavigateUp)
         }

@@ -30,7 +30,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.mluengo.memoryorganizer.navigation.NavigationActions
 import com.mluengo.memoryorganizer.navigation.Route
 import com.mluengo.memoryorganizer.ui.AppState
@@ -145,7 +144,7 @@ class MainActivity : ComponentActivity() {
                                 onFolderClick = { folderId ->
                                     navController.navigate(
                                         Route.Folder(
-                                            id = folderId
+                                            folderId = folderId
                                         )
                                     )
                                 }
@@ -180,12 +179,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable<Route.Folder> {
-                            val args = it.toRoute<Route.Folder>()
                             ItemScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
                                 isTopAppBarVisible = topBarState.value,
-                                folderId = args.id,
                             )
                         }
                     }
