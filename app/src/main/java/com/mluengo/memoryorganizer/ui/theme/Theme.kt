@@ -3,7 +3,6 @@ package com.mluengo.memoryorganizer.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -238,6 +237,14 @@ private val highContrastDarkColorScheme = darkColorScheme(
     surfaceContainerHigh = surfaceContainerHighDarkHighContrast,
     surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
 )
+
+// TODO: Enable App Theming (https://jadarma.github.io/blog/posts/2024/04/theme-aware-edge-to-edge-in-compose/)
+/*enum class Theme(val darkVariant: Boolean? = null) {
+    System,
+    Light(darkVariant = false),
+    Dark(darkVariant = true),
+    MaterialYou,
+}*/
 
 @Composable
 fun MemoryOrganizerTheme(

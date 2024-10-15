@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Close
@@ -33,7 +35,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,6 +61,7 @@ fun NewItemScreen(
     val spacing = LocalSpacing.current
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
+    val focusManager = LocalFocusManager.current
 
     Column(Modifier.fillMaxSize()) {
         TopAppBar(
@@ -98,7 +105,13 @@ fun NewItemScreen(
                                 Icon(Icons.Rounded.Clear, "Clear")
                             }
                         }
-                    }
+                    },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, capitalization = KeyboardCapitalization.Sentences),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
                 var notesText by rememberSaveable { mutableStateOf("") }
@@ -116,7 +129,13 @@ fun NewItemScreen(
                             Spacer(Modifier.weight(1f))
                             Text("${notesText.count()}/$maxDescriptionSize")
                         }
-                    }
+                    },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, capitalization = KeyboardCapitalization.Sentences),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
                 var linkText by rememberSaveable { mutableStateOf("") }
@@ -134,7 +153,14 @@ fun NewItemScreen(
                                 Icon(Icons.Rounded.Clear, "Clear")
                             }
                         }
-                    }
+                    },
+
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, capitalization = KeyboardCapitalization.Sentences),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
 
