@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,14 +22,11 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 @Composable
 fun FoldersOverviewScreen(
     lazyListState: LazyListState,
-    onFolderClick: (String) -> Unit,
+    onFolderClick: (Int) -> Unit,
     viewModel: FoldersOverviewViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
-    val context = LocalContext.current
-
     val foldersState by viewModel.foldersUiState.collectAsStateWithLifecycle()
-    //val selectedFolderId by viewModel.selectedFolderId.collectAsStateWithLifecycle()
 
     // Ensure the list always starts at the top when entering this screen
     LaunchedEffect(Unit) {

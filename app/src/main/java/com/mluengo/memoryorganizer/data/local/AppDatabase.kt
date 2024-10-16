@@ -4,8 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mluengo.memoryorganizer.data.local.dao.FolderDao
-import com.mluengo.memoryorganizer.data.local.entity.FolderEntity
-import com.mluengo.memoryorganizer.data.local.entity.ItemEntity
+import com.mluengo.memoryorganizer.data.local.dao.ItemDao
+import com.mluengo.memoryorganizer.data.local.model.FolderEntity
+import com.mluengo.memoryorganizer.data.local.model.ItemEntity
 
 @Database(
     entities = [FolderEntity::class, ItemEntity::class],
@@ -13,5 +14,6 @@ import com.mluengo.memoryorganizer.data.local.entity.ItemEntity
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
-    abstract val dao: FolderDao
+    abstract val foldersDao: FolderDao
+    abstract val bookmarksDao: ItemDao
 }

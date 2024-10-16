@@ -1,4 +1,4 @@
-package com.mluengo.memoryorganizer.data.local.entity
+package com.mluengo.memoryorganizer.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

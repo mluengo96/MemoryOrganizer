@@ -1,8 +1,11 @@
 package com.mluengo.memoryorganizer.di
 
 import com.mluengo.memoryorganizer.domain.repository.FolderRepository
+import com.mluengo.memoryorganizer.domain.repository.ItemRepository
 import com.mluengo.memoryorganizer.domain.use_case.AddFolder
 import com.mluengo.memoryorganizer.domain.use_case.DeleteFolder
+import com.mluengo.memoryorganizer.domain.use_case.GetBookmarks
+import com.mluengo.memoryorganizer.domain.use_case.GetBookmarksFromFolder
 import com.mluengo.memoryorganizer.domain.use_case.GetFolderDetail
 import com.mluengo.memoryorganizer.domain.use_case.GetFolders
 import com.mluengo.memoryorganizer.domain.use_case.UseCases
@@ -20,7 +23,7 @@ object DomainModule {
     @Provides
     fun provideUseCases(
         folderRepository: FolderRepository,
-        //itemRepository: ItemRepository,
+        itemRepository: ItemRepository,
         //preferences: Preferences
     ): UseCases {
         return UseCases(
@@ -28,9 +31,10 @@ object DomainModule {
             deleteFolder = DeleteFolder(repository = folderRepository),
             getFolderDetail = GetFolderDetail(repository = folderRepository),
             getFolders = GetFolders(repository = folderRepository),
+            getBookmarks = GetBookmarks(repository = itemRepository),
+            getBookmarksFromFolder = GetBookmarksFromFolder(repository = itemRepository),
             /*addItem = AddItem(repository = itemRepository),
-            deleteItem = DeleteItem(repository = itemRepository),
-            getItems = GetItems(repository = itemRepository),*/
+            deleteItem = DeleteItem(repository = itemRepository),*/
         )
     }
 }

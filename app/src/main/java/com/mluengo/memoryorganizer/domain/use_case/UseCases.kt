@@ -7,6 +7,7 @@ data class UseCases(
     val getFolderDetail: GetFolderDetail,
 
     /*val addItem: AddItem,
-    val deleteItem: DeleteItem,
-    val getItems: GetItems,*/
+    val deleteItem: DeleteItem,*/
+    val getBookmarks: GetBookmarks,
+    val getBookmarksFromFolder: GetBookmarksFromFolder,
 )

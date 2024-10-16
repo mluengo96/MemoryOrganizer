@@ -24,10 +24,10 @@ class FoldersOverviewViewModel @Inject constructor(
 ): ViewModel() {
     private val route = savedStateHandle.toRoute<Route.Folder>()
 
-    val selectedFolderId: StateFlow<String?> = savedStateHandle.getStateFlow(
+    /*val selectedFolderId: StateFlow<Int?> = savedStateHandle.getStateFlow(
         key = FOLDER_ID_KEY,
         initialValue = route.folderId
-    )
+    )*/
 
     val foldersUiState: StateFlow<FoldersOverviewUiState> =
         useCases.getFolders()
@@ -44,7 +44,7 @@ class FoldersOverviewViewModel @Inject constructor(
     // TODO: We don't show onboarding in next app launches
     // TODO: preferences.saveShouldShowOnboarding(false)
 
-    fun onFolderClick(folderId: String?) {
+    fun onFolderClick(folderId: Int) {
         savedStateHandle[FOLDER_ID_KEY] = folderId
     }
 }

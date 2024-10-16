@@ -39,7 +39,6 @@ fun ItemScreen(
 ) {
     val spacing = LocalSpacing.current
     val folderDetailState by viewModel.folderDetailUiState.collectAsStateWithLifecycle()
-    //if (folder.folderId != null) viewModel.onEvent(event = FolderEvent.OnGetFolderDetails(folder.folderId))
 
     LaunchedEffect(Unit) {
         lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen

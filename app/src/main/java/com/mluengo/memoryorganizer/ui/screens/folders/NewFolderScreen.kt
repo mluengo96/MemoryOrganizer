@@ -69,7 +69,6 @@ import com.mluengo.memoryorganizer.ui.theme.outlineLight
 import com.mluengo.memoryorganizer.util.FolderStatus
 import com.mluengo.memoryorganizer.util.UiEvent
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 @Composable
@@ -252,7 +251,6 @@ fun NewFolderScreen(
                 viewModel.onEvent(
                     FolderEvent.OnCreateFolderClick(
                         Folder(
-                            id = Uuid.random().toString(),
                             title = state.title,
                             description = state.description,
                             status = state.status,

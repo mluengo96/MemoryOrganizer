@@ -36,7 +36,7 @@ sealed interface Route {
     @Serializable data object Folders: Route
     @Serializable data object Bookmarks: Route
     @Serializable data object Settings: Route
-    @Serializable data class Folder(val folderId: String? = null): Route
+    @Serializable data class Folder(val folderId: Int? = null): Route
     @Serializable data class Bookmark(val bookmarkId: String? = null): Route
     @Serializable data object NewFolder: Route
     @Serializable data object NewItem: Route

@@ -5,7 +5,9 @@ import androidx.room.Room
 import com.mluengo.memoryorganizer.data.local.AppDatabase
 import com.mluengo.memoryorganizer.data.local.Converters
 import com.mluengo.memoryorganizer.data.local.repository.FolderRepositoryImpl
+import com.mluengo.memoryorganizer.data.local.repository.ItemRepositoryImpl
 import com.mluengo.memoryorganizer.domain.repository.FolderRepository
+import com.mluengo.memoryorganizer.domain.repository.ItemRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -36,7 +38,17 @@ object DataModule {
         db: AppDatabase
     ): FolderRepository {
         return FolderRepositoryImpl(
-            dao = db.dao
+            dao = db.foldersDao
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookmarkRepository(
+        db: AppDatabase
+    ): ItemRepository {
+        return ItemRepositoryImpl(
+            dao = db.bookmarksDao
         )
     }
 }

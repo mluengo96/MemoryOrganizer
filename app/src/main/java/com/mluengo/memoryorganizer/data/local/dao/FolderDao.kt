@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.mluengo.memoryorganizer.data.local.entity.FolderEntity
+import com.mluengo.memoryorganizer.data.local.model.FolderEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,7 +22,7 @@ interface FolderDao {
             WHERE id = :id
         """
     )
-    fun getFolderDetail(id: String): Flow<FolderEntity>
+    fun getFolderDetail(id: Int): Flow<FolderEntity>
 
     @Query(
         """

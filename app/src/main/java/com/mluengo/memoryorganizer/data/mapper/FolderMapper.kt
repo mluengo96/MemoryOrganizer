@@ -1,6 +1,6 @@
 package com.mluengo.memoryorganizer.data.mapper
 
-import com.mluengo.memoryorganizer.data.local.entity.FolderEntity
+import com.mluengo.memoryorganizer.data.local.model.FolderEntity
 import com.mluengo.memoryorganizer.domain.model.Folder
 
 fun FolderEntity.toFolder(): Folder {

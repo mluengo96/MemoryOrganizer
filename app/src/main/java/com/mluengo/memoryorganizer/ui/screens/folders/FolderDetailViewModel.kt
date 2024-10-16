@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.mluengo.memoryorganizer.domain.model.Bookmark
 import com.mluengo.memoryorganizer.domain.model.Folder
 import com.mluengo.memoryorganizer.domain.use_case.UseCases
 import com.mluengo.memoryorganizer.navigation.Route
@@ -64,6 +65,17 @@ class FolderDetailViewModel @Inject constructor(
                 initialValue = FolderDetailUiState.Loading
             )
 
+    val bookmarksUiState: StateFlow<BookmarksUiState> =
+        useCases.getBookmarksFromFolder(folderId = folder.folderId!!)
+            .map { bookmarks ->
+                BookmarksUiState.Success(bookmarks = bookmarks)
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = BookmarksUiState.Loading
+            )
+
     private fun getDetails(event: FolderEvent.OnGetFolderDetails) {
         viewModelScope.launch {
             useCases.getFolderDetail(
@@ -79,4 +91,11 @@ sealed interface FolderDetailUiState {
     data object Error : FolderDetailUiState
     data object Loading : FolderDetailUiState
     data class Success(val folder: Folder) : FolderDetailUiState
+}
+
+@Stable
+sealed interface BookmarksUiState {
+    data object Error : BookmarksUiState
+    data object Loading : BookmarksUiState
+    data class Success(val bookmarks: List<Bookmark>) : BookmarksUiState
 }

@@ -1,6 +1,6 @@
 package com.mluengo.memoryorganizer.domain.model
 
-data class Item(
+data class Bookmark(
     val id: Int? = null,
     val title: String,
     val url: String,

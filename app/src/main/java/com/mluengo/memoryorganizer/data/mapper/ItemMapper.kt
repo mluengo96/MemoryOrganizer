@@ -1,10 +1,10 @@
 package com.mluengo.memoryorganizer.data.mapper
 
-import com.mluengo.memoryorganizer.data.local.entity.ItemEntity
-import com.mluengo.memoryorganizer.domain.model.Item
+import com.mluengo.memoryorganizer.data.local.model.ItemEntity
+import com.mluengo.memoryorganizer.domain.model.Bookmark
 
-fun ItemEntity.toItem(): Item {
-    return Item(
+fun ItemEntity.toItem(): Bookmark {
+    return Bookmark(
         id = id,
         title = title,
         url = url,
@@ -14,7 +14,7 @@ fun ItemEntity.toItem(): Item {
     )
 }
 
-fun Item.toItemEntity(): ItemEntity {
+fun Bookmark.toItemEntity(): ItemEntity {
     return ItemEntity(
         id = id,
         url = url,

@@ -19,7 +19,7 @@ class FolderRepositoryImpl(
         dao.deleteFolder(folder.toFolderEntity())
     }
 
-    override fun getFolderDetail(id: String): Flow<Folder> {
+    override fun getFolderDetail(id: Int): Flow<Folder> {
         return dao.getFolderDetail(id).map { folder ->
             folder.toFolder()
         }
