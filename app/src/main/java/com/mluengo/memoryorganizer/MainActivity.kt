@@ -21,17 +21,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.navigation.NavigationActions
 import com.mluengo.memoryorganizer.navigation.Route
+import com.mluengo.memoryorganizer.navigation.TopLevelDestination
 import com.mluengo.memoryorganizer.ui.AppState
 import com.mluengo.memoryorganizer.ui.components.NavigationBar
 import com.mluengo.memoryorganizer.ui.components.fab.Fab
@@ -52,40 +50,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MemoryOrganizerTheme {
-                val navController = rememberNavController()
-                val snackbarHostState = remember { SnackbarHostState() }
                 val appState: AppState = rememberAppState()
-                val currentBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = currentBackStackEntry?.destination?.route
+                val navController = appState.navController
+                val snackbarHostState = remember { SnackbarHostState() }
+                val currentDestination = appState.currentTopLevelDestination
                 val lazyListState = rememberLazyListState()
                 val hapticFeedback = LocalHapticFeedback.current
                 val navigationActions = remember(navController) {
                     NavigationActions(navController)
-                }
-
-                // State of topBar, set state to false, if current page route is "car_details"
-                val topBarState = rememberSaveable { (mutableStateOf(true)) }
-
-                when (currentDestination) {
-                    Route.Folders::class.qualifiedName -> {
-                        appState.setShowBottomBar(true)
-                        topBarState.value = false
-                    }
-
-                    Route.Folder::class.qualifiedName -> {
-                        appState.setShowBottomBar(false)
-                        topBarState.value = true
-                    }
-
-                    Route.Bookmarks::class.qualifiedName -> {
-                        appState.setShowBottomBar(true)
-                        topBarState.value = true
-                    }
-
-                    Route.NewFolder::class.qualifiedName, Route.NewItem::class.qualifiedName -> {
-                        appState.setShowBottomBar(false)
-                        topBarState.value = true
-                    }
                 }
 
                 Scaffold(
@@ -94,32 +66,23 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     bottomBar = {
                         NavigationBar(
-                            navController = navController,
-                            shouldShowBottomBar = appState.shouldShowBottomBar,
+                            appState = appState,
                             navigateToTopLevelDestination = navigationActions::navigateTo,
                         )
                     },
                     floatingActionButton = {
-                        when (currentDestination) {
-                            Route.Folders::class.qualifiedName -> {
+                        if (currentDestination != null) {
+                            if (currentDestination.fabTitle != null) {
                                 Fab(
                                     extended = lazyListState.isScrollingUp(),
-                                    resourceId = R.string.new_folder,
+                                    resourceId = currentDestination.fabTitle,
                                     onFabClick = {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        navController.navigate(Route.NewFolder)
-                                    },
-                                    modifier = Modifier
-                                )
-                            }
-
-                            Route.Folder::class.qualifiedName, Route.Bookmarks::class.qualifiedName -> {
-                                Fab(
-                                    extended = lazyListState.isScrollingUp(),
-                                    resourceId = R.string.new_item,
-                                    onFabClick = {
-                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        navController.navigate(Route.NewItem)
+                                        when (currentDestination) {
+                                            TopLevelDestination.HOME -> navController.navigate(Route.NewFolder)
+                                            TopLevelDestination.BOOKMAKRS -> navController.navigate(Route.NewItem)
+                                            TopLevelDestination.SETTINGS -> { }
+                                        }
                                     },
                                     modifier = Modifier
                                 )
@@ -129,7 +92,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Route.Folders,
+                        startDestination = Route.Home,
                         enterTransition = { slideInVertically { it / 16 } + fadeIn() },
                         exitTransition = { fadeOut(tween(0)) },
                         popEnterTransition = { slideInVertically { it / 16 } + fadeIn() },
@@ -138,7 +101,7 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                             .consumeWindowInsets(innerPadding),
                     ) {
-                        composable<Route.Folders> {
+                        composable<Route.Home> {
                             FoldersOverviewScreen(
                                 lazyListState = lazyListState,
                                 onFolderClick = { folderId ->
@@ -154,7 +117,7 @@ class MainActivity : ComponentActivity() {
                             BookmarkScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
-                                isTopAppBarVisible = topBarState.value,
+                                isTopAppBarVisible = true,
                                 modifier = Modifier
                                     .padding(innerPadding)
                                     .consumeWindowInsets(innerPadding)
@@ -167,7 +130,7 @@ class MainActivity : ComponentActivity() {
                             NewFolderScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
-                                isTopAppBarVisible = topBarState.value,
+                                isTopAppBarVisible = true,
                                 onNavigateUp = navController::navigateUp
                             )
                         }
@@ -175,14 +138,14 @@ class MainActivity : ComponentActivity() {
                             NewItemScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
-                                isTopAppBarVisible = topBarState.value,
+                                isTopAppBarVisible = true,
                             )
                         }
                         composable<Route.Folder> {
                             ItemScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
-                                isTopAppBarVisible = topBarState.value,
+                                isTopAppBarVisible = true,
                             )
                         }
                     }
