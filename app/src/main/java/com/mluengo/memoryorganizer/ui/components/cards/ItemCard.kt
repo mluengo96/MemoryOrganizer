@@ -21,12 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,14 +32,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.domain.model.LinkViewState
-import com.mluengo.memoryorganizer.domain.model.fetchMetadata
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.onSurfaceVariantLight
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun ItemCard(
@@ -55,7 +46,7 @@ fun ItemCard(
     val spacing = LocalSpacing.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var loadingState by remember {
+    /*var loadingState by remember {
         mutableStateOf<LinkViewState>(LinkViewState.Loading)
     }
     val testLinks = listOf(
@@ -80,7 +71,7 @@ fun ItemCard(
         is LinkViewState.Failure -> {
             // TODO: Failure View
         }
-    }
+    }*/
     //val metadata = state.metadata
 
     OutlinedCard(

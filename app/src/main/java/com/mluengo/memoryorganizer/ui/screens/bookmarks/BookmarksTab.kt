@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.mluengo.memoryorganizer.ui.components.ItemCard
+import com.mluengo.memoryorganizer.ui.components.cards.ItemCard
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 
 @Composable
@@ -23,7 +23,11 @@ fun BookmarksTab(
     ) {
         // Add 5 items
         items(5) {
-            ItemCard()
+            ItemCard(
+                title = "test",
+                description = "test description",
+                imageUrl = ""
+            )
         }
     }
 }

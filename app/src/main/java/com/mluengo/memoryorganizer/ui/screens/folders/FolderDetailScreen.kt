@@ -89,7 +89,10 @@ fun ItemScreen(
                         // Add 5 items
                         items(testLinks) { link ->
                             ItemCard(
-                                link = link,
+                                title = "test",
+                                description = "test description",
+                                imageUrl = ""
+                                //link = link,
                             )
                         }
                     }
