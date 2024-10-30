@@ -8,7 +8,7 @@ class GetFolderDetail(
     private val repository: FolderRepository
 ) {
     operator fun invoke(
-        folderId: Int
+        folderId: String
     ): Flow<Folder> {
         return repository.getFolderDetail(
             id = folderId

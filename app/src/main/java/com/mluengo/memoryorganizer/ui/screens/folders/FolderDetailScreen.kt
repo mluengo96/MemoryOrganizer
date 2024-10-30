@@ -22,8 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.components.cards.ItemCard
@@ -31,14 +29,14 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
 @Composable
-fun ItemScreen(
-    navController: NavController,
+fun FolderDetailScreen(
     lazyListState: LazyListState,
     isTopAppBarVisible: Boolean,
+    onNavigateUp: () -> Unit,
     viewModel: FolderDetailViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
-    val folderDetailState by viewModel.folderDetailUiState.collectAsStateWithLifecycle()
+    val folderDetailState by viewModel.folderUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
@@ -61,7 +59,7 @@ fun ItemScreen(
                     actionIconContentDescription = stringResource(id = R.string.edit),
                     onActionClick = { /* TODO */ },
                     navigationIconContentDescription = stringResource(id = R.string.back),
-                    onNavigationClick = { navController.navigateUp() },
+                    onNavigationClick = onNavigateUp,
                     lazyListState = lazyListState,
                     isVisible = isTopAppBarVisible,
                 )
@@ -105,9 +103,9 @@ fun ItemScreen(
 @Preview(showBackground = true, device = "id:pixel_7a")
 @Composable
 fun ItemScreenPreview() {
-    ItemScreen(
-        navController = rememberNavController(),
+    FolderDetailScreen(
         lazyListState = rememberLazyListState(),
         isTopAppBarVisible = true,
+        onNavigateUp = { }
     )
 }

@@ -24,8 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.BookmarksTabIndicator
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
@@ -35,10 +33,9 @@ import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookmarkScreen(
-    navController: NavController,
     lazyListState: LazyListState,
     isTopAppBarVisible: Boolean,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val spacing = LocalSpacing.current
     var state by remember { mutableIntStateOf(0) }
@@ -124,7 +121,6 @@ fun BookmarkScreen(
 @Composable
 fun BookmarksScreenPreview() {
     BookmarkScreen(
-        navController = rememberNavController(),
         lazyListState = rememberLazyListState(),
         isTopAppBarVisible = true,
         modifier = Modifier,

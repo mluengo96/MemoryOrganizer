@@ -11,8 +11,10 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mluengo.memoryorganizer.navigation.Route
 import com.mluengo.memoryorganizer.navigation.TopLevelDestination
+import com.mluengo.memoryorganizer.navigation.bookmarks.BookmarksRoute
+import com.mluengo.memoryorganizer.navigation.home.HomeRoute
+import com.mluengo.memoryorganizer.navigation.settings.SettingsRoute
 
 @Composable
 fun rememberAppState(
@@ -37,9 +39,9 @@ class AppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() {
             with(currentDestination) {
-                if (this?.hasRoute<Route.Home>() == true) return TopLevelDestination.HOME
-                if (this?.hasRoute<Route.Bookmarks>() == true) return TopLevelDestination.BOOKMAKRS
-                if (this?.hasRoute<Route.Settings>() == true) return TopLevelDestination.SETTINGS
+                if (this?.hasRoute<HomeRoute>() == true) return TopLevelDestination.HOME
+                if (this?.hasRoute<BookmarksRoute>() == true) return TopLevelDestination.BOOKMARKS
+                if (this?.hasRoute<SettingsRoute>() == true) return TopLevelDestination.SETTINGS
             }
             return null
         }

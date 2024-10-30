@@ -69,6 +69,10 @@ dependencies {
     implementation(libs.emoji2.emojipicker)
     implementation(libs.kotlinx.serialization.json)
 
+    // Adaptive List Pane
+    implementation(libs.androidx.compose.material3.adaptive.navigation)
+    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+
     // Room
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)

@@ -1,7 +1,10 @@
 package com.mluengo.memoryorganizer.domain.model
 
+/**
+ * External data layer representation of a Folder
+ */
 data class Folder(
-    val id: Int = 0,
+    val id: String,
     val title: String,
     val description: String,
     val status: String,

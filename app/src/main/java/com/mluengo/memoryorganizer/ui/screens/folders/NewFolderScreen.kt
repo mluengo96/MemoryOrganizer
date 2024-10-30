@@ -251,6 +251,7 @@ fun NewFolderScreen(
                 viewModel.onEvent(
                     FolderEvent.OnCreateFolderClick(
                         Folder(
+                            id = state.id,
                             title = state.title,
                             description = state.description,
                             status = state.status,

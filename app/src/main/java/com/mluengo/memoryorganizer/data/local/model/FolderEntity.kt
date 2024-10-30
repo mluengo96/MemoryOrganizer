@@ -3,9 +3,13 @@ package com.mluengo.memoryorganizer.data.local.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+/**
+ * Defines a folder a user may create.
+ * It has a one to many relationship with [ItemEntity]
+ */
+@Entity(tableName = "folders")
 data class FolderEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey val id: String,
     val title: String,
     val description: String,
     val status: String,

@@ -18,16 +18,16 @@ interface FolderDao {
     @Query(
         """
             SELECT *
-            FROM folderentity
+            FROM folders
             WHERE id = :id
         """
     )
-    fun getFolderDetail(id: Int): Flow<FolderEntity>
+    fun getFolderDetail(id: String): Flow<FolderEntity>
 
     @Query(
         """
             SELECT *
-            FROM folderentity
+            FROM folders
         """
     )
     fun getFolders(): Flow<List<FolderEntity>>

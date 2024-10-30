@@ -9,7 +9,7 @@ internal class FoldersPreviewParameterProvider: PreviewParameterProvider<List<Fo
         get() = sequenceOf(
             listOf(
                 Folder(
-                    id = 0,
+                    id = "0",
                     title = "Android development",
                     description = "Android development resources",
                     status = "In Progress",
@@ -17,7 +17,7 @@ internal class FoldersPreviewParameterProvider: PreviewParameterProvider<List<Fo
                     itemList = listOf("1", "2", "3", "4")
                 ),
                 Folder(
-                    id = 0,
+                    id = "0",
                     title = "iOS development",
                     description = "iOS development resources",
                     status = "Todo",
@@ -25,7 +25,7 @@ internal class FoldersPreviewParameterProvider: PreviewParameterProvider<List<Fo
                     itemList = listOf()
                 ),
                 Folder(
-                    id = 0,
+                    id = "0",
                     title = "Blender tutorials",
                     description = "",
                     status = "Todo",
@@ -33,7 +33,7 @@ internal class FoldersPreviewParameterProvider: PreviewParameterProvider<List<Fo
                     itemList = listOf("1", "2", "3", "4")
                 ),
                 Folder(
-                    id = 0,
+                    id = "0",
                     title = "Christmas special recipe",
                     description = "",
                     status = "Done",

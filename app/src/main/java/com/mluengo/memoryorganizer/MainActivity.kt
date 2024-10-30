@@ -30,16 +30,17 @@ import androidx.navigation.compose.composable
 import com.mluengo.memoryorganizer.navigation.NavigationActions
 import com.mluengo.memoryorganizer.navigation.Route
 import com.mluengo.memoryorganizer.navigation.TopLevelDestination
+import com.mluengo.memoryorganizer.navigation.bookmarks.bookmarksScreen
+import com.mluengo.memoryorganizer.navigation.home.HomeRoute
+import com.mluengo.memoryorganizer.navigation.home.folderListDetailScreen
+import com.mluengo.memoryorganizer.navigation.home.homeScreen
+import com.mluengo.memoryorganizer.navigation.settings.settingsScreen
 import com.mluengo.memoryorganizer.ui.AppState
 import com.mluengo.memoryorganizer.ui.components.NavigationBar
 import com.mluengo.memoryorganizer.ui.components.fab.Fab
 import com.mluengo.memoryorganizer.ui.rememberAppState
-import com.mluengo.memoryorganizer.ui.screens.bookmarks.BookmarkScreen
 import com.mluengo.memoryorganizer.ui.screens.bookmarks.NewItemScreen
-import com.mluengo.memoryorganizer.ui.screens.folders.FoldersOverviewScreen
-import com.mluengo.memoryorganizer.ui.screens.folders.ItemScreen
 import com.mluengo.memoryorganizer.ui.screens.folders.NewFolderScreen
-import com.mluengo.memoryorganizer.ui.screens.settings.SettingsScreen
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         NavigationBar(
                             appState = appState,
-                            navigateToTopLevelDestination = navigationActions::navigateTo,
+                            navigateToTopLevelDestination = navigationActions::navigateToTopLevelDestination,
                         )
                     },
                     floatingActionButton = {
@@ -79,8 +80,8 @@ class MainActivity : ComponentActivity() {
                                     onFabClick = {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                         when (currentDestination) {
-                                            TopLevelDestination.HOME -> navController.navigate(Route.NewFolder)
-                                            TopLevelDestination.BOOKMAKRS -> navController.navigate(Route.NewItem)
+                                            TopLevelDestination.HOME -> navController.navigate(Route.NewFolderRoute)
+                                            TopLevelDestination.BOOKMARKS -> navController.navigate(Route.NewItemRoute)
                                             TopLevelDestination.SETTINGS -> { }
                                         }
                                     },
@@ -92,7 +93,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Route.Home,
+                        startDestination = HomeRoute(),
                         enterTransition = { slideInVertically { it / 16 } + fadeIn() },
                         exitTransition = { fadeOut(tween(0)) },
                         popEnterTransition = { slideInVertically { it / 16 } + fadeIn() },
@@ -101,32 +102,12 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                             .consumeWindowInsets(innerPadding),
                     ) {
-                        composable<Route.Home> {
-                            FoldersOverviewScreen(
-                                lazyListState = lazyListState,
-                                onFolderClick = { folderId ->
-                                    navController.navigate(
-                                        Route.Folder(
-                                            folderId = folderId
-                                        )
-                                    )
-                                }
-                            )
-                        }
-                        composable<Route.Bookmarks> {
-                            BookmarkScreen(
-                                navController = navController,
-                                lazyListState = lazyListState,
-                                isTopAppBarVisible = true,
-                                modifier = Modifier
-                                    .padding(innerPadding)
-                                    .consumeWindowInsets(innerPadding)
-                            )
-                        }
-                        composable<Route.Settings> {
-                            SettingsScreen(navController)
-                        }
-                        composable<Route.NewFolder> {
+                        homeScreen(lazyListState = lazyListState)
+                        bookmarksScreen(lazyListState = lazyListState)
+                        settingsScreen()
+                        folderListDetailScreen(lazyListState = lazyListState)
+
+                        composable<Route.NewFolderRoute> {
                             NewFolderScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
@@ -134,15 +115,9 @@ class MainActivity : ComponentActivity() {
                                 onNavigateUp = navController::navigateUp
                             )
                         }
-                        composable<Route.NewItem> {
+
+                        composable<Route.NewItemRoute> {
                             NewItemScreen(
-                                navController = navController,
-                                lazyListState = lazyListState,
-                                isTopAppBarVisible = true,
-                            )
-                        }
-                        composable<Route.Folder> {
-                            ItemScreen(
                                 navController = navController,
                                 lazyListState = lazyListState,
                                 isTopAppBarVisible = true,

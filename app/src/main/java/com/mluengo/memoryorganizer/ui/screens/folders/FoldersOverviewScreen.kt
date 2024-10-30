@@ -22,11 +22,11 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 @Composable
 fun FoldersOverviewScreen(
     lazyListState: LazyListState,
-    onFolderClick: (Int) -> Unit,
+    onFolderClick: (String) -> Unit,
     viewModel: FoldersOverviewViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
-    val foldersState by viewModel.foldersUiState.collectAsStateWithLifecycle()
+    val foldersState by viewModel.uiState.collectAsStateWithLifecycle()
 
     // Ensure the list always starts at the top when entering this screen
     LaunchedEffect(Unit) {
@@ -34,9 +34,9 @@ fun FoldersOverviewScreen(
     }
 
     when (foldersState) {
-        FoldersOverviewUiState.Empty -> { EmptyFolderScreen() }
-        FoldersOverviewUiState.Loading -> { Unit }
-        is FoldersOverviewUiState.Success -> {
+        HomeUiState.Empty -> { EmptyFolderScreen() }
+        HomeUiState.Loading -> { Unit }
+        is HomeUiState.Folders -> {
             LazyColumn(
                 contentPadding = PaddingValues(spacing.spaceMedium),
                 verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
@@ -46,7 +46,7 @@ fun FoldersOverviewScreen(
                     HeaderFolders()
                 }
 
-                items((foldersState as FoldersOverviewUiState.Success).createdFolders) { folder ->
+                items((foldersState as HomeUiState.Folders).folders) { folder ->
                     FolderCard(
                         onClick = {
                             viewModel.onFolderClick(folder.id)

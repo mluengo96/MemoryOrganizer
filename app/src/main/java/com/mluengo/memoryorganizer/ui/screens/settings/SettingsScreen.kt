@@ -13,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.ui.components.settings_sections.GeneralSection
 import com.mluengo.memoryorganizer.ui.components.settings_sections.HelpSupportSection
@@ -23,9 +21,7 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
 @Composable
-fun SettingsScreen(
-    navController: NavController
-) {
+fun SettingsScreen() {
     val spacing = LocalSpacing.current
     Column(
         modifier = Modifier
@@ -55,5 +51,5 @@ fun SettingsScreen(
 @Preview(showBackground = true, device = "id:pixel_7a")
 @Composable
 fun SettingsScreenPreview() {
-    SettingsScreen(navController = rememberNavController())
+    SettingsScreen()
 }
