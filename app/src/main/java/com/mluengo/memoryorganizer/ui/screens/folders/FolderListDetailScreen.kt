@@ -114,7 +114,7 @@ internal fun FolderListDetailScreen(
                     ) {
                         folderScreen(
                             lazyListState = lazyListState,
-                            onNavigateUp = { /** TODO: CHECK */ nestedNavController.navigateUp() }
+                            onNavigateUp = listDetailNavigator::navigateBack
                         )
                         composable<FolderPlaceholderRoute> {
                             //FolderDetailPlaceholder()
