@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.ui.components.MenuButton
+import com.mluengo.memoryorganizer.ui.components.buttons.MenuButton
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
@@ -70,7 +70,6 @@ fun NewItemScreen(
             actionIcon = Icons.Rounded.Close,
             actionIconContentDescription = stringResource(id = R.string.close),
             onActionClick = { navController.navigateUp() },
-            lazyListState = lazyListState,
             isVisible = isTopAppBarVisible,
         )
 

@@ -23,6 +23,7 @@
     <string name="close">Close</string>
     <string name="edit">Edit</string>
     <string name="back">Back</string>
+    <string name="back_to_top">Back to top</string>
 
     <!-- Welcome Screen -->
     <string name="welcome_title">Welcome!</string>

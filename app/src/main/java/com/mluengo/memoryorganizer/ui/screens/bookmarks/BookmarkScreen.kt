@@ -48,7 +48,6 @@ fun BookmarkScreen(
     Column {
         TopAppBar(
             title = stringResource(id = R.string.bookmarks_title),
-            lazyListState = lazyListState,
             isVisible = isTopAppBarVisible,
         )
         PrimaryTabRow(
@@ -91,11 +90,12 @@ fun BookmarkScreen(
                             }
                         }
                     },
-                    text = { Text(
-                        text = title,
-                        style = MemoryOrganizerTypography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                    ) },
-
+                    text = {
+                        Text(
+                            text = title,
+                            style = MemoryOrganizerTypography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                            )
+                    },
                 )
             }
         }

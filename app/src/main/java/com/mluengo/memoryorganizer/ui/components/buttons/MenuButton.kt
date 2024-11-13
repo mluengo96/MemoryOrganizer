@@ -1,4 +1,4 @@
-package com.mluengo.memoryorganizer.ui.components
+package com.mluengo.memoryorganizer.ui.components.buttons
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.animateFloatAsState

@@ -3,9 +3,6 @@ package com.mluengo.memoryorganizer.ui.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.MoreVert
@@ -25,9 +22,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +36,6 @@ fun TopAppBar(
     actionIconContentDescription: String? = null,
     onNavigationClick: () -> Unit = { },
     onActionClick: () -> Unit = { },
-    lazyListState: LazyListState,
     isVisible: Boolean,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -52,11 +48,7 @@ fun TopAppBar(
         exit = slideOutVertically(targetOffsetY = { -it }),
     ) {
         CenterAlignedTopAppBar(
-            modifier = Modifier.clickable {
-                coroutineScope.launch {
-                    lazyListState.animateScrollToItem(0)
-                }
-            },
+            modifier = Modifier,
             title = {
                 Text(
                     text = title,
@@ -101,15 +93,16 @@ fun TopAppBar(
     }
 }
 
-@Preview(showBackground = true, device = "id:pixel_7a")
+@PreviewLightDark
 @Composable
 fun CenterAppBarPreview() {
-    TopAppBar(
-        title = stringResource(id = android.R.string.untitled),
-        navigationIconContentDescription = "Navigation icon",
-        actionIcon = Icons.Rounded.MoreVert,
-        actionIconContentDescription = "Action icon",
-        lazyListState = rememberLazyListState(),
-        isVisible = true,
-    )
+    MemoryOrganizerTheme {
+        TopAppBar(
+            title = stringResource(id = android.R.string.untitled),
+            navigationIconContentDescription = "Navigation icon",
+            actionIcon = Icons.Rounded.MoreVert,
+            actionIconContentDescription = "Action icon",
+            isVisible = true,
+        )
+    }
 }

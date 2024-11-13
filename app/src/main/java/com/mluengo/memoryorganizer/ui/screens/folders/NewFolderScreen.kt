@@ -60,8 +60,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.domain.model.Folder
-import com.mluengo.memoryorganizer.ui.components.MenuButton
 import com.mluengo.memoryorganizer.ui.components.TopAppBar
+import com.mluengo.memoryorganizer.ui.components.buttons.MenuButton
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
@@ -112,7 +112,6 @@ fun NewFolderScreen(
             actionIcon = Icons.Rounded.Close,
             actionIconContentDescription = stringResource(id = R.string.close),
             onActionClick = { navController.navigateUp() },
-            lazyListState = lazyListState,
             isVisible = isTopAppBarVisible,
         )
 

@@ -19,9 +19,6 @@ fun NavGraphBuilder.bookmarksScreen(
         BookmarkScreen(
             lazyListState = lazyListState,
             isTopAppBarVisible = true,
-            /*modifier = Modifier
-                .padding(innerPadding)
-                .consumeWindowInsets(innerPadding)*/
         )
     }
 }
