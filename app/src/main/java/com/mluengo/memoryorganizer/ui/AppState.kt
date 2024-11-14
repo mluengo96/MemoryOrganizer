@@ -11,10 +11,10 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mluengo.memoryorganizer.navigation.TopLevelDestination
-import com.mluengo.memoryorganizer.navigation.bookmarks.BookmarksRoute
-import com.mluengo.memoryorganizer.navigation.home.HomeRoute
-import com.mluengo.memoryorganizer.navigation.settings.SettingsRoute
+import com.mluengo.memoryorganizer.core.navigation.TopLevelDestination
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.navigation.BookmarksRoute
+import com.mluengo.memoryorganizer.core.navigation.HomeRoute
+import com.mluengo.memoryorganizer.organizer.presentation.settings.navigation.SettingsRoute
 
 @Composable
 fun rememberAppState(

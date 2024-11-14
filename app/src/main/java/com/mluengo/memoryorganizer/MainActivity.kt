@@ -27,20 +27,19 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mluengo.memoryorganizer.navigation.NavigationActions
-import com.mluengo.memoryorganizer.navigation.Route
-import com.mluengo.memoryorganizer.navigation.TopLevelDestination
-import com.mluengo.memoryorganizer.navigation.bookmarks.bookmarksScreen
-import com.mluengo.memoryorganizer.navigation.home.HomeRoute
-import com.mluengo.memoryorganizer.navigation.home.folderListDetailScreen
-import com.mluengo.memoryorganizer.navigation.home.homeScreen
-import com.mluengo.memoryorganizer.navigation.settings.settingsScreen
+import com.mluengo.memoryorganizer.core.presentation.components.Fab
+import com.mluengo.memoryorganizer.core.presentation.components.NavigationBar
+import com.mluengo.memoryorganizer.core.navigation.NavigationActions
+import com.mluengo.memoryorganizer.core.navigation.Route
+import com.mluengo.memoryorganizer.core.navigation.TopLevelDestination
+import com.mluengo.memoryorganizer.core.navigation.HomeRoute
+import com.mluengo.memoryorganizer.core.navigation.homeScreen
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.NewItemScreen
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.navigation.bookmarksScreen
+import com.mluengo.memoryorganizer.organizer.presentation.new_folder.NewFolderScreen
+import com.mluengo.memoryorganizer.organizer.presentation.settings.navigation.settingsScreen
 import com.mluengo.memoryorganizer.ui.AppState
-import com.mluengo.memoryorganizer.ui.components.NavigationBar
-import com.mluengo.memoryorganizer.ui.components.fab.Fab
 import com.mluengo.memoryorganizer.ui.rememberAppState
-import com.mluengo.memoryorganizer.ui.screens.bookmarks.NewItemScreen
-import com.mluengo.memoryorganizer.ui.screens.folders.NewFolderScreen
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -81,7 +80,8 @@ class MainActivity : ComponentActivity() {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                         when (currentDestination) {
                                             TopLevelDestination.HOME -> navController.navigate(Route.NewFolderRoute)
-                                            TopLevelDestination.BOOKMARKS -> navController.navigate(Route.NewItemRoute)
+                                            TopLevelDestination.BOOKMARKS -> navController.navigate(
+                                                Route.NewItemRoute)
                                             TopLevelDestination.SETTINGS -> { }
                                         }
                                     },
@@ -105,7 +105,6 @@ class MainActivity : ComponentActivity() {
                         homeScreen(lazyListState = lazyListState)
                         bookmarksScreen(lazyListState = lazyListState)
                         settingsScreen()
-                        folderListDetailScreen(lazyListState = lazyListState)
 
                         composable<Route.NewFolderRoute> {
                             NewFolderScreen(

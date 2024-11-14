@@ -2,12 +2,12 @@ package com.mluengo.memoryorganizer.di
 
 import android.app.Application
 import androidx.room.Room
-import com.mluengo.memoryorganizer.data.local.AppDatabase
-import com.mluengo.memoryorganizer.data.local.Converters
-import com.mluengo.memoryorganizer.data.local.repository.FolderRepositoryImpl
-import com.mluengo.memoryorganizer.data.local.repository.ItemRepositoryImpl
-import com.mluengo.memoryorganizer.domain.repository.FolderRepository
-import com.mluengo.memoryorganizer.domain.repository.ItemRepository
+import com.mluengo.memoryorganizer.core.data.local.AppDatabase
+import com.mluengo.memoryorganizer.core.data.local.Converters
+import com.mluengo.memoryorganizer.organizer.data.local.repository.FolderRepositoryImpl
+import com.mluengo.memoryorganizer.organizer.data.local.repository.ItemRepositoryImpl
+import com.mluengo.memoryorganizer.organizer.domain.repository.FolderRepository
+import com.mluengo.memoryorganizer.organizer.domain.repository.ItemRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

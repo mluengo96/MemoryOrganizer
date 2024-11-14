@@ -1,14 +1,14 @@
 package com.mluengo.memoryorganizer.di
 
-import com.mluengo.memoryorganizer.domain.repository.FolderRepository
-import com.mluengo.memoryorganizer.domain.repository.ItemRepository
-import com.mluengo.memoryorganizer.domain.use_case.AddFolder
-import com.mluengo.memoryorganizer.domain.use_case.DeleteFolder
-import com.mluengo.memoryorganizer.domain.use_case.GetBookmarks
-import com.mluengo.memoryorganizer.domain.use_case.GetBookmarksFromFolder
-import com.mluengo.memoryorganizer.domain.use_case.GetFolderDetail
-import com.mluengo.memoryorganizer.domain.use_case.GetFolders
-import com.mluengo.memoryorganizer.domain.use_case.UseCases
+import com.mluengo.memoryorganizer.organizer.domain.repository.FolderRepository
+import com.mluengo.memoryorganizer.organizer.domain.repository.ItemRepository
+import com.mluengo.memoryorganizer.organizer.domain.use_case.AddFolder
+import com.mluengo.memoryorganizer.organizer.domain.use_case.DeleteFolder
+import com.mluengo.memoryorganizer.organizer.domain.use_case.GetBookmarks
+import com.mluengo.memoryorganizer.organizer.domain.use_case.GetBookmarksFromFolder
+import com.mluengo.memoryorganizer.organizer.domain.use_case.GetFolderDetail
+import com.mluengo.memoryorganizer.organizer.domain.use_case.GetFolders
+import com.mluengo.memoryorganizer.organizer.domain.use_case.UseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
