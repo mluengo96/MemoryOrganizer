@@ -55,20 +55,20 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.emoji2.emojipicker.EmojiPickerView
 import androidx.emoji2.emojipicker.EmojiViewItem
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.organizer.domain.model.Folder
-import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
 import com.mluengo.memoryorganizer.core.presentation.components.MenuButton
+import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
+import com.mluengo.memoryorganizer.core.presentation.util.FolderStatus
+import com.mluengo.memoryorganizer.core.presentation.util.UiEvent
+import com.mluengo.memoryorganizer.organizer.domain.model.Folder
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.FolderEvent
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import com.mluengo.memoryorganizer.ui.theme.Shapes
 import com.mluengo.memoryorganizer.ui.theme.outlineLight
-import com.mluengo.memoryorganizer.core.presentation.util.FolderStatus
-import com.mluengo.memoryorganizer.core.presentation.util.UiEvent
+import org.koin.androidx.compose.koinViewModel
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
@@ -78,7 +78,7 @@ fun NewFolderScreen(
     lazyListState: LazyListState,
     isTopAppBarVisible: Boolean,
     onNavigateUp: () -> Unit,
-    viewModel: NewFolderViewModel = hiltViewModel()
+    viewModel: NewFolderViewModel = koinViewModel()
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val spacing = LocalSpacing.current

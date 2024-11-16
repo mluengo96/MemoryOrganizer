@@ -6,19 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mluengo.memoryorganizer.organizer.domain.use_case.UseCases
-import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.FolderEvent
 import com.mluengo.memoryorganizer.core.presentation.util.UiEvent
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.mluengo.memoryorganizer.organizer.domain.repository.FolderDataSource
+import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.FolderEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NewFolderViewModel @Inject constructor(
-    //preferences: Preferences,
-    private val useCases: UseCases
+class NewFolderViewModel(
+    //preferences: Preferences
+    private val folderDataSource: FolderDataSource,
 ): ViewModel() {
 
     var state by mutableStateOf(NewFolderState())
@@ -62,7 +59,7 @@ class NewFolderViewModel @Inject constructor(
 
     private fun createFolder(event: FolderEvent.OnCreateFolderClick) {
         viewModelScope.launch {
-            useCases.addFolder(
+            folderDataSource.insertFolder(
                 event.folder
             )
             _uiEvent.send(UiEvent.NavigateUp)

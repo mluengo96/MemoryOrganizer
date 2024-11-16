@@ -1,29 +1,18 @@
 package com.mluengo.memoryorganizer.di
 
-import android.app.Application
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.mluengo.memoryorganizer.core.presentation.Folders2PaneViewModel
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.BookmarkListViewModel
+import com.mluengo.memoryorganizer.organizer.presentation.folder_detail.FolderDetailViewModel
+import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.FoldersOverviewViewModel
+import com.mluengo.memoryorganizer.organizer.presentation.new_folder.NewFolderViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(
-        app: Application
-    ): SharedPreferences {
-        return app.getSharedPreferences("shared_pref", MODE_PRIVATE)
-    }
-
-    // TODO
-    /*@Provides
-    @Singleton
-    fun providePreferences(sharedPreferences: SharedPreferences): Preferences {
-        return DefaultPreferences(sharedPreferences)
-    }*/
+val appModule = module {
+    viewModel { FoldersOverviewViewModel(get(), get()) }
+    viewModel { FolderDetailViewModel(get(), get()) }
+    viewModelOf(::Folders2PaneViewModel)
+    viewModelOf(::BookmarkListViewModel)
+    viewModelOf(::NewFolderViewModel)
 }

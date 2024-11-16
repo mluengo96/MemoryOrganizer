@@ -5,22 +5,19 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.mluengo.memoryorganizer.organizer.domain.model.Folder
-import com.mluengo.memoryorganizer.organizer.domain.use_case.UseCases
 import com.mluengo.memoryorganizer.core.navigation.HomeRoute
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.mluengo.memoryorganizer.organizer.domain.model.Folder
+import com.mluengo.memoryorganizer.organizer.domain.repository.FolderDataSource
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
-@HiltViewModel
-class FoldersOverviewViewModel @Inject constructor(
+class FoldersOverviewViewModel(
     //preferences: Preferences,
     private val savedStateHandle: SavedStateHandle,
-    useCases: UseCases,
+    folderDataSource: FolderDataSource,
 ): ViewModel() {
 
     // Key used to save and retrieve the currently selected folder id from saved state.
@@ -34,7 +31,7 @@ class FoldersOverviewViewModel @Inject constructor(
 
     val uiState: StateFlow<HomeUiState> = combine(
         selectedFolderId,
-        useCases.getFolders(),
+        folderDataSource.getFolders(),
         HomeUiState::Folders
     ).stateIn(
         scope = viewModelScope,
@@ -47,7 +44,7 @@ class FoldersOverviewViewModel @Inject constructor(
     }
 
     val foldersUiState: StateFlow<FoldersOverviewUiState> =
-        useCases.getFolders()
+        folderDataSource.getFolders()
             .map { folders ->
                 if (folders.isEmpty()) FoldersOverviewUiState.Empty
                 else FoldersOverviewUiState.Success(createdFolders = folders)

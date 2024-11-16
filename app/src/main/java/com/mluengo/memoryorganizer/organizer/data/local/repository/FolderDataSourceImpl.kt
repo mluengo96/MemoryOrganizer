@@ -4,13 +4,13 @@ import com.mluengo.memoryorganizer.organizer.data.local.dao.FolderDao
 import com.mluengo.memoryorganizer.organizer.data.mapper.toFolder
 import com.mluengo.memoryorganizer.organizer.data.mapper.toFolderEntity
 import com.mluengo.memoryorganizer.organizer.domain.model.Folder
-import com.mluengo.memoryorganizer.organizer.domain.repository.FolderRepository
+import com.mluengo.memoryorganizer.organizer.domain.repository.FolderDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class FolderRepositoryImpl(
+class FolderDataSourceImpl(
     private val dao: FolderDao
-): FolderRepository {
+): FolderDataSource {
     override suspend fun insertFolder(folder: Folder) {
         dao.insertFolder(folder.toFolderEntity())
     }

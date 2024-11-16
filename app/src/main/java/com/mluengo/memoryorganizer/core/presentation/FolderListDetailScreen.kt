@@ -20,7 +20,6 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,13 +30,14 @@ import com.mluengo.memoryorganizer.organizer.presentation.folder_detail.navigati
 import com.mluengo.memoryorganizer.organizer.presentation.folder_detail.navigation.folderScreen
 import com.mluengo.memoryorganizer.organizer.presentation.folder_detail.navigation.navigateToFolder
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.FoldersOverviewScreen
+import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
 @Composable
 internal fun FolderListDetailScreen(
     lazyGridState: LazyGridState,
     lazyListState: LazyListState,
-    viewModel: Folders2PaneViewModel = hiltViewModel(),
+    viewModel: Folders2PaneViewModel = koinViewModel(),
 ) {
     val selectedFolderId by viewModel.selectedFolderId.collectAsStateWithLifecycle()
     FolderListDetailScreen(

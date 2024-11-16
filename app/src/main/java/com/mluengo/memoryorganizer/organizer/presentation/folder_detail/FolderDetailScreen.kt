@@ -25,37 +25,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.core.presentation.components.BackToTopButton
 import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
+import com.mluengo.memoryorganizer.organizer.domain.model.Folder
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarkItem
 import com.mluengo.memoryorganizer.organizer.presentation.models.BookmarkUi
+import com.mluengo.memoryorganizer.organizer.presentation.models.toFolderUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FolderDetailScreen(
     lazyGridState: LazyGridState,
     isTopAppBarVisible: Boolean,
     onNavigateUp: () -> Unit,
-    viewModel: FolderDetailViewModel = hiltViewModel()
+    viewModel: FolderDetailViewModel = koinViewModel()
 ) {
     val spacing = LocalSpacing.current
-    val folderDetailState by viewModel.folderUiState.collectAsStateWithLifecycle()
+    val state by viewModel.folderUiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        lazyGridState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
+        // Ensure the list always starts at the top when entering this screen
+        lazyGridState.scrollToItem(0)
     }
 
-    when (folderDetailState) {
+    when (state) {
         FolderDetailUiState.Error -> TODO()
         FolderDetailUiState.Loading -> { Unit }
         is FolderDetailUiState.Success -> {
-            val details = (folderDetailState as FolderDetailUiState.Success).folder
+            val details = (state as FolderDetailUiState.Success).folder
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -137,3 +140,12 @@ fun ItemScreenPreview() {
         onNavigateUp = { }
     )
 }
+
+internal val previewFolder = Folder(
+    id = "1",
+    title = "Android development",
+    description = "This folder stores important Android resources for developers.",
+    status = "",
+    iconResId = null,
+    itemList = listOf(),
+).toFolderUi()

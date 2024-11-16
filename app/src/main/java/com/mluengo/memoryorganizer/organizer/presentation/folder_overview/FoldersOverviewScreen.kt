@@ -11,19 +11,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mluengo.memoryorganizer.organizer.domain.model.Folder
-import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.HeaderFolders
 import com.mluengo.memoryorganizer.organizer.presentation.folder_detail.components.FolderCard
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.EmptyFolderScreen
+import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.HeaderFolders
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FoldersOverviewScreen(
     lazyListState: LazyListState,
     onFolderClick: (String) -> Unit,
-    viewModel: FoldersOverviewViewModel = hiltViewModel()
+    viewModel: FoldersOverviewViewModel = koinViewModel()
 ) {
     val spacing = LocalSpacing.current
     val foldersState by viewModel.uiState.collectAsStateWithLifecycle()

@@ -16,17 +16,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mluengo.memoryorganizer.organizer.domain.model.Bookmark
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarkItem
 import com.mluengo.memoryorganizer.organizer.presentation.models.toBookmarkUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BookmarkScreen(
-    viewModel: BookmarkListViewModel = hiltViewModel(),
+    viewModel: BookmarkListViewModel = koinViewModel(),
     lazyGridState: LazyGridState,
     isTopAppBarVisible: Boolean,
     modifier: Modifier = Modifier,

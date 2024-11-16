@@ -4,51 +4,43 @@ import android.app.Application
 import androidx.room.Room
 import com.mluengo.memoryorganizer.core.data.local.AppDatabase
 import com.mluengo.memoryorganizer.core.data.local.Converters
-import com.mluengo.memoryorganizer.organizer.data.local.repository.FolderRepositoryImpl
+import com.mluengo.memoryorganizer.organizer.data.local.repository.FolderDataSourceImpl
 import com.mluengo.memoryorganizer.organizer.data.local.repository.ItemRepositoryImpl
-import com.mluengo.memoryorganizer.organizer.domain.repository.FolderRepository
+import com.mluengo.memoryorganizer.organizer.domain.repository.FolderDataSource
 import com.mluengo.memoryorganizer.organizer.domain.repository.ItemRepository
 import com.squareup.moshi.Moshi
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DataModule {
-    private val converter = Converters(Moshi.Builder().build())
+private val converter = Converters(Moshi.Builder().build())
 
-    @Provides
-    @Singleton
-    fun provideDatabase(app: Application): AppDatabase {
-        return Room.databaseBuilder(
-            app,
-            AppDatabase::class.java,
-            "bookmark_db"
-        )
-            .addTypeConverter(converter)
-            .build()
-    }
+fun provideDatabase(app: Application): AppDatabase {
+    return Room.databaseBuilder(
+        app,
+        AppDatabase::class.java,
+        "bookmark_db"
+    )
+        .addTypeConverter(converter)
+        .build()
+}
 
-    @Provides
-    @Singleton
-    fun provideFolderRepository(
-        db: AppDatabase
-    ): FolderRepository {
-        return FolderRepositoryImpl(
-            dao = db.foldersDao
-        )
-    }
+fun provideFolderRepository(
+    db: AppDatabase
+): FolderDataSource {
+    return FolderDataSourceImpl(
+        dao = db.foldersDao
+    )
+}
 
-    @Provides
-    @Singleton
-    fun provideBookmarkRepository(
-        db: AppDatabase
-    ): ItemRepository {
-        return ItemRepositoryImpl(
-            dao = db.bookmarksDao
-        )
-    }
+fun provideBookmarkRepository(
+    db: AppDatabase
+): ItemRepository {
+    return ItemRepositoryImpl(
+        dao = db.bookmarksDao
+    )
+}
+
+val dataModule = module {
+    single { provideDatabase(get()) }
+    single { provideFolderRepository(get()) }
+    single { provideBookmarkRepository(get()) }
 }

@@ -43,9 +43,7 @@ import com.mluengo.memoryorganizer.organizer.presentation.settings.navigation.se
 import com.mluengo.memoryorganizer.ui.AppState
 import com.mluengo.memoryorganizer.ui.rememberAppState
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
