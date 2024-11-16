@@ -1,128 +1,85 @@
 package com.mluengo.memoryorganizer.organizer.presentation.bookmarks
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Archive
-import androidx.compose.material.icons.outlined.Bookmarks
-import androidx.compose.material.icons.rounded.Archive
-import androidx.compose.material.icons.rounded.Bookmarks
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarksTabIndicator
-import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mluengo.memoryorganizer.organizer.domain.model.Bookmark
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarkItem
+import com.mluengo.memoryorganizer.organizer.presentation.models.toBookmarkUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
-import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
+import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookmarkScreen(
-    lazyListState: LazyListState,
+    viewModel: BookmarkListViewModel = hiltViewModel(),
+    lazyGridState: LazyGridState,
     isTopAppBarVisible: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val spacing = LocalSpacing.current
-    var state by remember { mutableIntStateOf(0) }
-    val titles = listOf(stringResource(id = R.string.bookmarks_tab), stringResource(id = R.string.archived_tab))
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
+        // Ensure the list always starts at the top when entering this screen
+        lazyGridState.scrollToItem(0)
     }
 
-    Column {
-        TopAppBar(
-            title = stringResource(id = R.string.bookmarks_title),
-            isVisible = isTopAppBarVisible,
-        )
-        PrimaryTabRow(
-            selectedTabIndex = state,
-            indicator = {
-                BookmarksTabIndicator(modifier = modifier.tabIndicatorOffset(state))
-            },
-        ) {
-            titles.forEachIndexed { index, title ->
-                Tab(
-                    selected = state == index,
-                    onClick = { state = index },
-                    icon = {
-                        when (index) {
-                            0 -> {
-                                if (state != 0) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Bookmarks,
-                                        contentDescription = null
-                                    )
-                                } else {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Bookmarks,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                            1 -> {
-                                if (state != 1) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Archive,
-                                        contentDescription = null
-                                    )
-                                } else {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Archive,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        }
-                    },
-                    text = {
-                        Text(
-                            text = title,
-                            style = MemoryOrganizerTypography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                            )
-                    },
-                )
-            }
-        }
-        AnimatedContent(
-            targetState = state,
-            label = "Tab animation"
-        ) { targetState ->
-            when (targetState) {
-                0 -> {
-                    BookmarksTab(
-                        lazyListState = lazyListState
-                    )
-                }
-                1 -> {
-                    ArchivesTab()
-                }
-            }
+    /*TopAppBar(
+        title = stringResource(id = R.string.bookmarks_title),
+        isVisible = isTopAppBarVisible,
+    )*/
+    //EmptyBookmarksTab()
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+        horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+        contentPadding = PaddingValues(spacing.spaceMedium),
+        state = lazyGridState,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        items(state.bookmarks) { bookmarkUi ->
+            BookmarkItem(
+                bookmarkUi = bookmarkUi,
+                modifier = Modifier
+                    .wrapContentHeight()
+            )
         }
     }
 }
 
-@Preview(showBackground = true, device = "id:pixel_7a")
+@PreviewLightDark
 @Composable
 fun BookmarksScreenPreview() {
-    BookmarkScreen(
-        lazyListState = rememberLazyListState(),
-        isTopAppBarVisible = true,
-        modifier = Modifier,
-    )
+    MemoryOrganizerTheme {
+        BookmarkScreen(
+            lazyGridState = rememberLazyGridState(),
+            isTopAppBarVisible = true,
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background),
+        )
+    }
 }
+
+internal val previewBookmark = Bookmark(
+    title = "Haze 1.0 - Chris Banes",
+    url = "https://chrisbanes.me/posts/haze-1.0",
+    description = "Haze 1.0 is a powerful library for achieving background blurring effects within Jetpack Compose and Compose Multiplatform apps.",
+    imageUrl = "",
+).toBookmarkUi()

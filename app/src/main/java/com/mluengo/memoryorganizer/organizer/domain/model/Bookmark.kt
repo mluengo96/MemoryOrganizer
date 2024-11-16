@@ -5,6 +5,6 @@ data class Bookmark(
     val title: String,
     val url: String,
     val description: String,
-    val image: String, // TODO: TBD
-    val folderId: Int?,
+    val imageUrl: String, // TODO: TBD
+    val folderId: Int? = null,
 )

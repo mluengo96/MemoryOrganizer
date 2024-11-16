@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Text
@@ -26,16 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mluengo.memoryorganizer.R
-import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
 import com.mluengo.memoryorganizer.core.presentation.components.BackToTopButton
-import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.ItemCard
+import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarkItem
+import com.mluengo.memoryorganizer.organizer.presentation.models.BookmarkUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 import kotlinx.coroutines.launch
 
 @Composable
 fun FolderDetailScreen(
-    lazyListState: LazyListState,
+    lazyGridState: LazyGridState,
     isTopAppBarVisible: Boolean,
     onNavigateUp: () -> Unit,
     viewModel: FolderDetailViewModel = hiltViewModel()
@@ -45,7 +48,7 @@ fun FolderDetailScreen(
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        lazyListState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
+        lazyGridState.scrollToItem(0)  // Ensure the list always starts at the top when entering this screen
     }
 
     when (folderDetailState) {
@@ -69,12 +72,17 @@ fun FolderDetailScreen(
                     isVisible = isTopAppBarVisible,
                 )
                 Column {
-                    LazyColumn(
-                        contentPadding = PaddingValues(spacing.spaceMedium),
+                    val columns = 2
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(columns),
                         verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                        state = lazyListState
+                        horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                        contentPadding = PaddingValues(spacing.spaceMedium),
+                        state = lazyGridState,
+                        modifier = Modifier
+                            .fillMaxWidth()
                     ) {
-                        item {
+                        item(span = { GridItemSpan(columns) }) {
                             Text(
                                 text = details.description,
                                 textAlign = TextAlign.Start,
@@ -91,18 +99,25 @@ fun FolderDetailScreen(
 
                         // Add 5 items
                         items(testLinks) { link ->
-                            ItemCard(
-                                title = "test",
-                                description = "test description",
-                                imageUrl = ""
+                            BookmarkItem(
+                                bookmarkUi = BookmarkUi(
+                                    title = "test",
+                                    description = "test description",
+                                    imageUrl = ""
+                                ),
                                 //link = link,
                             )
                         }
 
-                        item {
-                            BackToTopButton(modifier = Modifier.fillMaxWidth().padding(horizontal = spacing.spaceExtraLarge, vertical = spacing.spaceMedium)) {
+                        item(span = { GridItemSpan(columns) }) {
+                            BackToTopButton(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = spacing.spaceExtraLarge,
+                                    vertical = spacing.spaceMedium
+                                )) {
                                 coroutineScope.launch {
-                                    lazyListState.animateScrollToItem(0)
+                                    lazyGridState.animateScrollToItem(0)
                                 }
                             }
                         }
@@ -117,7 +132,7 @@ fun FolderDetailScreen(
 @Composable
 fun ItemScreenPreview() {
     FolderDetailScreen(
-        lazyListState = rememberLazyListState(),
+        lazyGridState = rememberLazyGridState(),
         isTopAppBarVisible = true,
         onNavigateUp = { }
     )

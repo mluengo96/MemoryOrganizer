@@ -1,6 +1,6 @@
 package com.mluengo.memoryorganizer.organizer.presentation.bookmarks.navigation
 
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,11 +13,11 @@ import kotlinx.serialization.Serializable
 fun NavController.navigateToBookmarks(navOptions: NavOptions? = null) = navigate(route = BookmarksRoute, navOptions)
 
 fun NavGraphBuilder.bookmarksScreen(
-    lazyListState: LazyListState,
+    lazyGridState: LazyGridState,
 ) {
     composable<BookmarksRoute> {
         BookmarkScreen(
-            lazyListState = lazyListState,
+            lazyGridState = lazyGridState,
             isTopAppBarVisible = true,
         )
     }

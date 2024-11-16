@@ -9,6 +9,6 @@ data class ItemEntity(
     val url: String,
     val title: String,
     val description: String,
-    val image: String, // TODO: TBD
+    val imageUrl: String, // TODO: TBD
     val folderId: Int?,
 )

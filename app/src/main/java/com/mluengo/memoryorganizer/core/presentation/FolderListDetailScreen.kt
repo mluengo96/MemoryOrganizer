@@ -2,6 +2,7 @@ package com.mluengo.memoryorganizer.core.presentation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -34,12 +35,14 @@ import java.util.UUID
 
 @Composable
 internal fun FolderListDetailScreen(
+    lazyGridState: LazyGridState,
     lazyListState: LazyListState,
     viewModel: Folders2PaneViewModel = hiltViewModel(),
 ) {
     val selectedFolderId by viewModel.selectedFolderId.collectAsStateWithLifecycle()
     FolderListDetailScreen(
         selectedFolderId = selectedFolderId,
+        lazyGridState = lazyGridState,
         lazyListState = lazyListState,
         onFolderClick = viewModel::onFolderClick,
     )
@@ -49,6 +52,7 @@ internal fun FolderListDetailScreen(
 @Composable
 internal fun FolderListDetailScreen(
     selectedFolderId: String?,
+    lazyGridState: LazyGridState,
     lazyListState: LazyListState,
     onFolderClick: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -113,7 +117,7 @@ internal fun FolderListDetailScreen(
                         route = DetailPaneNavHostRoute::class
                     ) {
                         folderScreen(
-                            lazyListState = lazyListState,
+                            lazyGridState = lazyGridState,
                             onNavigateUp = listDetailNavigator::navigateBack
                         )
                         composable<FolderPlaceholderRoute> {

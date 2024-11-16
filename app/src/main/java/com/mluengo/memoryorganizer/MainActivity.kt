@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -27,13 +29,13 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mluengo.memoryorganizer.core.presentation.components.Fab
-import com.mluengo.memoryorganizer.core.presentation.components.NavigationBar
+import com.mluengo.memoryorganizer.core.navigation.HomeRoute
 import com.mluengo.memoryorganizer.core.navigation.NavigationActions
 import com.mluengo.memoryorganizer.core.navigation.Route
 import com.mluengo.memoryorganizer.core.navigation.TopLevelDestination
-import com.mluengo.memoryorganizer.core.navigation.HomeRoute
 import com.mluengo.memoryorganizer.core.navigation.homeScreen
+import com.mluengo.memoryorganizer.core.presentation.components.Fab
+import com.mluengo.memoryorganizer.core.presentation.components.NavigationBar
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.NewItemScreen
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.navigation.bookmarksScreen
 import com.mluengo.memoryorganizer.organizer.presentation.new_folder.NewFolderScreen
@@ -55,6 +57,7 @@ class MainActivity : ComponentActivity() {
                 val snackbarHostState = remember { SnackbarHostState() }
                 val currentDestination = appState.currentTopLevelDestination
                 val lazyListState = rememberLazyListState()
+                val lazyGridState = rememberLazyGridState()
                 val hapticFeedback = LocalHapticFeedback.current
                 val navigationActions = remember(navController) {
                     NavigationActions(navController)
@@ -74,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         if (currentDestination != null) {
                             if (currentDestination.fabTitle != null) {
                                 Fab(
-                                    extended = lazyListState.isScrollingUp(),
+                                    extended = lazyGridState.isScrollingUp(),
                                     resourceId = currentDestination.fabTitle,
                                     onFabClick = {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -102,8 +105,11 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                             .consumeWindowInsets(innerPadding),
                     ) {
-                        homeScreen(lazyListState = lazyListState)
-                        bookmarksScreen(lazyListState = lazyListState)
+                        homeScreen(
+                            lazyGridState = lazyGridState,
+                            lazyListState = lazyListState
+                        )
+                        bookmarksScreen(lazyGridState = lazyGridState)
                         settingsScreen()
 
                         composable<Route.NewFolderRoute> {
@@ -139,6 +145,27 @@ enum class ContainerState {
  */
 @Composable
 private fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
+}
+
+/**
+ * Returns whether the lazy grid is currently scrolling up.
+ */
+@Composable
+private fun LazyGridState.isScrollingUp(): Boolean {
     var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
     var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
     return remember(this) {

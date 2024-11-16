@@ -9,7 +9,7 @@ fun ItemEntity.toItem(): Bookmark {
         title = title,
         url = url,
         description = description,
-        image = image,
+        imageUrl = imageUrl,
         folderId = folderId
     )
 }
@@ -20,7 +20,7 @@ fun Bookmark.toItemEntity(): ItemEntity {
         url = url,
         title = title,
         description = description,
-        image = image,
+        imageUrl = imageUrl,
         folderId = folderId
     )
 }

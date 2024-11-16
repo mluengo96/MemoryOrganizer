@@ -1,6 +1,6 @@
 package com.mluengo.memoryorganizer.organizer.presentation.folder_detail.navigation
 
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -17,12 +17,12 @@ fun NavController.navigateToFolder(folderId: String, navOptions: NavOptionsBuild
 }
 
 fun NavGraphBuilder.folderScreen(
-    lazyListState: LazyListState,
+    lazyGridState: LazyGridState,
     onNavigateUp: () -> Unit,
 ) {
     composable<FolderRoute> {
         FolderDetailScreen(
-            lazyListState = lazyListState,
+            lazyGridState = lazyGridState,
             isTopAppBarVisible = true,
             onNavigateUp = onNavigateUp
         )
