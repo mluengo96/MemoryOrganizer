@@ -1,13 +1,13 @@
 package com.mluengo.memoryorganizer.organizer.presentation.folder_overview
 
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.mluengo.memoryorganizer.core.navigation.HomeRoute
-import com.mluengo.memoryorganizer.organizer.domain.model.Folder
 import com.mluengo.memoryorganizer.organizer.domain.repository.FolderDataSource
+import com.mluengo.memoryorganizer.organizer.presentation.models.FolderUi
+import com.mluengo.memoryorganizer.organizer.presentation.models.toFolderUi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -31,7 +31,7 @@ class FoldersOverviewViewModel(
 
     val uiState: StateFlow<HomeUiState> = combine(
         selectedFolderId,
-        folderDataSource.getFolders(),
+        folderDataSource.getFolders().map { folders -> folders.map { it.toFolderUi() } },
         HomeUiState::Folders
     ).stateIn(
         scope = viewModelScope,
@@ -43,27 +43,8 @@ class FoldersOverviewViewModel(
         savedStateHandle[selectedFolderIdKey] = folderId
     }
 
-    val foldersUiState: StateFlow<FoldersOverviewUiState> =
-        folderDataSource.getFolders()
-            .map { folders ->
-                if (folders.isEmpty()) FoldersOverviewUiState.Empty
-                else FoldersOverviewUiState.Success(createdFolders = folders)
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = FoldersOverviewUiState.Loading
-            )
-
     // TODO: We don't show onboarding in next app launches
     // TODO: preferences.saveShouldShowOnboarding(false)
-}
-
-@Stable
-sealed interface FoldersOverviewUiState {
-    data object Empty : FoldersOverviewUiState
-    data object Loading : FoldersOverviewUiState
-    data class Success(val createdFolders: List<Folder>) : FoldersOverviewUiState
 }
 
 sealed interface HomeUiState {
@@ -71,7 +52,7 @@ sealed interface HomeUiState {
 
     data class Folders(
         val selectedFolderId: String?,
-        val folders: List<Folder>,
+        val folders: List<FolderUi>,
     ) : HomeUiState
 
     data object Empty : HomeUiState

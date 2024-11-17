@@ -47,7 +47,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.core.presentation.components.MenuButton
-import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
+import com.mluengo.memoryorganizer.core.presentation.components.MoTopAppBar
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
@@ -64,7 +64,7 @@ fun NewItemScreen(
     val focusManager = LocalFocusManager.current
 
     Column(Modifier.fillMaxSize()) {
-        TopAppBar(
+        MoTopAppBar(
             title = stringResource(id = R.string.new_item),
             hasNavigationButton = false,
             actionIcon = Icons.Rounded.Close,

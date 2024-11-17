@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.core.presentation.components.BackToTopButton
-import com.mluengo.memoryorganizer.core.presentation.components.TopAppBar
+import com.mluengo.memoryorganizer.core.presentation.components.MoTopAppBar
 import com.mluengo.memoryorganizer.organizer.domain.model.Folder
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarkItem
 import com.mluengo.memoryorganizer.organizer.presentation.models.BookmarkUi
@@ -64,7 +64,7 @@ fun FolderDetailScreen(
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Top
             ) {
-                TopAppBar(
+                MoTopAppBar(
                     title = details.title,
                     hasNavigationButton = true,
                     actionIcon = Icons.Rounded.MoreVert,
@@ -91,6 +91,8 @@ fun FolderDetailScreen(
                                 textAlign = TextAlign.Start,
                                 style = MemoryOrganizerTypography.bodyMedium,
                             )
+                        }
+                        item(span = { GridItemSpan(columns) }) {
                             Spacer(modifier = Modifier.height(spacing.spaceLarge))
                         }
 

@@ -2,6 +2,7 @@ package com.mluengo.memoryorganizer.organizer.presentation.bookmarks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -15,10 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mluengo.memoryorganizer.R
+import com.mluengo.memoryorganizer.core.presentation.components.MoTopAppBar
 import com.mluengo.memoryorganizer.organizer.domain.model.Bookmark
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.BookmarkItem
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.EmptyBookmarksTab
 import com.mluengo.memoryorganizer.organizer.presentation.models.toBookmarkUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
@@ -39,27 +44,31 @@ fun BookmarkScreen(
         lazyGridState.scrollToItem(0)
     }
 
-    /*TopAppBar(
-        title = stringResource(id = R.string.bookmarks_title),
-        isVisible = isTopAppBarVisible,
-    )*/
-    //EmptyBookmarksTab()
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-        horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-        contentPadding = PaddingValues(spacing.spaceMedium),
-        state = lazyGridState,
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        items(state.bookmarks) { bookmarkUi ->
-            BookmarkItem(
-                bookmarkUi = bookmarkUi,
-                modifier = Modifier
-                    .wrapContentHeight()
+    if (state.bookmarks.isEmpty()) {
+        EmptyBookmarksTab()
+    } else {
+        Column {
+            MoTopAppBar(
+                title = stringResource(id = R.string.bookmarks_title),
+                isVisible = isTopAppBarVisible,
             )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                contentPadding = PaddingValues(spacing.spaceMedium),
+                state = lazyGridState,
+                modifier = modifier
+                    .fillMaxWidth()
+            ) {
+                items(state.bookmarks) { bookmarkUi ->
+                    BookmarkItem(
+                        bookmarkUi = bookmarkUi,
+                        modifier = Modifier
+                            .wrapContentHeight()
+                    )
+                }
+            }
         }
     }
 }

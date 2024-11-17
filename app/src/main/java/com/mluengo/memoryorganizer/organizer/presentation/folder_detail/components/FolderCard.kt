@@ -25,14 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.StatusCard
+import com.mluengo.memoryorganizer.organizer.presentation.models.FolderUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 
 @Composable
 fun FolderCard(
+    folder: FolderUi,
     onClick: () -> Unit,
-    title: String,
-    status: String,
-    itemSize: Int
 ) {
     val spacing = LocalSpacing.current
     OutlinedCard(
@@ -50,9 +49,9 @@ fun FolderCard(
             ) {
                 Icon(imageVector = Icons.Outlined.Folder, contentDescription = "Folder Card")
 
-                if (status.isNotBlank()) {
+                if (!folder.status.isNullOrBlank()) {
                     StatusCard(
-                        title = status
+                        title = folder.status
                     )
                 }
             }
@@ -65,12 +64,13 @@ fun FolderCard(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        text = title,
+                        text = folder.title,
                         style = MaterialTheme.typography.headlineMedium,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
                     Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
+                    val itemSize = folder.itemList.size
                     Text(
                         text = pluralStringResource(R.plurals.folder_resources, itemSize, itemSize),
                         style = MaterialTheme.typography.labelLarge,
@@ -92,9 +92,17 @@ fun FolderCard(
 @Composable
 fun FolderCardPreview() {
     FolderCard(
+        folder = FolderUi(
+            id = "",
+            title = "Note taking app",
+            status = "In Progress",
+            description = "Something something",
+            itemList = listOf(
+                "",
+                "",
+                ""
+            )
+        ),
         onClick = { },
-        title = "Note taking app",
-        status = "In Progress",
-        itemSize = 10
     )
 }

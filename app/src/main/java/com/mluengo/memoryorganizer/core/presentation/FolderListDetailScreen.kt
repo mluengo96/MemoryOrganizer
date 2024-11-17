@@ -109,6 +109,9 @@ internal fun FolderListDetailScreen(
             }
         },
         detailPane = {
+            // Hide FAB
+            val isDetailVisible =
+                listDetailNavigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
             AnimatedPane {
                 key(nestedNavKey) {
                     NavHost(

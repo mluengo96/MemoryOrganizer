@@ -29,7 +29,7 @@ import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(
+fun MoTopAppBar(
     title: String,
     hasNavigationButton: Boolean = false,
     navigationIconContentDescription: String? = null,
@@ -98,7 +98,7 @@ fun TopAppBar(
 @Composable
 fun CenterAppBarPreview() {
     MemoryOrganizerTheme {
-        TopAppBar(
+        MoTopAppBar(
             title = stringResource(id = R.string.untitled),
             navigationIconContentDescription = "Navigation icon",
             actionIcon = Icons.Rounded.MoreVert,

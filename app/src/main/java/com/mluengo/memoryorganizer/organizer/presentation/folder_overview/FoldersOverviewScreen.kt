@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mluengo.memoryorganizer.core.presentation.components.LoadingProgressIndicator
 import com.mluengo.memoryorganizer.organizer.domain.model.Folder
 import com.mluengo.memoryorganizer.organizer.presentation.folder_detail.components.FolderCard
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.EmptyFolderScreen
@@ -35,26 +36,21 @@ fun FoldersOverviewScreen(
 
     when (foldersState) {
         HomeUiState.Empty -> { EmptyFolderScreen() }
-        HomeUiState.Loading -> { Unit }
+        HomeUiState.Loading -> { LoadingProgressIndicator() }
         is HomeUiState.Folders -> {
             LazyColumn(
                 contentPadding = PaddingValues(spacing.spaceMedium),
                 verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
                 state = lazyListState
             ) {
-                item {
-                    HeaderFolders()
-                }
-
+                item { HeaderFolders() }
                 items((foldersState as HomeUiState.Folders).folders) { folder ->
                     FolderCard(
+                        folder = folder,
                         onClick = {
                             viewModel.onFolderClick(folder.id)
                             onFolderClick(folder.id)
                         },
-                        title = folder.title,
-                        status = folder.status,
-                        itemSize = folder.itemList.size
                     )
                 }
             }
