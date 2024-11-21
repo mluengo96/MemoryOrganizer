@@ -103,7 +103,7 @@ internal fun FolderListDetailScreen(
         listPane = {
             AnimatedPane {
                 FoldersOverviewScreen(
-                    lazyListState = lazyListState,
+                    lazyGridState = lazyGridState,
                     onFolderClick = ::onFolderClickShowDetailPane
                 )
             }

@@ -18,10 +18,11 @@ import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 @Composable
 fun StatusCard(
     title: String,
+    modifier: Modifier = Modifier,
 ) {
     val spacing = LocalSpacing.current
     Surface(
-        modifier = Modifier.height(spacing.spaceLarge),
+        modifier = modifier.height(spacing.spaceLarge),
         color = MaterialTheme.colorScheme.tertiaryContainer,
         shape = RoundedCornerShape(8.dp),
     ) {

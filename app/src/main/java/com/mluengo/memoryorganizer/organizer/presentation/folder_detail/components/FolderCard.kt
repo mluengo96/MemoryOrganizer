@@ -21,21 +21,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.R
 import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.components.StatusCard
 import com.mluengo.memoryorganizer.organizer.presentation.models.FolderUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
+import com.mluengo.memoryorganizer.ui.theme.MemoryOrganizerTheme
 
 @Composable
 fun FolderCard(
     folder: FolderUi,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val spacing = LocalSpacing.current
     OutlinedCard(
-        onClick = onClick
+        onClick = onClick,
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier.padding(spacing.spaceMedium),
@@ -88,21 +91,23 @@ fun FolderCard(
     }
 }
 
-@Preview(showBackground = false, device = "id:pixel_7a")
+@PreviewLightDark
 @Composable
 fun FolderCardPreview() {
-    FolderCard(
-        folder = FolderUi(
-            id = "",
-            title = "Note taking app",
-            status = "In Progress",
-            description = "Something something",
-            itemList = listOf(
-                "",
-                "",
-                ""
-            )
-        ),
-        onClick = { },
-    )
+    MemoryOrganizerTheme {
+        FolderCard(
+            folder = FolderUi(
+                id = "",
+                title = "Note taking app",
+                status = "In Progress",
+                description = "Something something",
+                itemList = listOf(
+                    "",
+                    "",
+                    ""
+                )
+            ),
+            onClick = { },
+        )
+    }
 }
