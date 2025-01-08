@@ -89,7 +89,7 @@ fun FolderDetailScreen(
                             Text(
                                 text = details.description,
                                 textAlign = TextAlign.Start,
-                                style = MemoryOrganizerTypography.bodyMedium,
+                                style = MemoryOrganizerTypography.bodyLarge,
                             )
                         }
                         item(span = { GridItemSpan(columns) }) {
@@ -97,9 +97,12 @@ fun FolderDetailScreen(
                         }
 
                         val testLinks = listOf(
-                            "https://not-valid-url", // --> Invalid URL
+                            //"https://not-valid-url", // --> Invalid URL
+                            "https://theobjective.com/espana/politica/2025-01-08/csd-cautelar-fc-barcelona-dani-olmo/",
                             "https://m3.material.io/develop/android/jetpack-compose", // --> Valid URL
-                            "https://expatexplore.com/blog/when-to-travel-weather-seasons/", // --> URL that does not contain image
+                            "https://composelibraries.com/", // --> URL that does not contain image
+                            "https://culturedcode.com/things/",
+                            "https://thesachee.carrd.co/"
                         )
 
                         // Add 5 items
@@ -109,9 +112,8 @@ fun FolderDetailScreen(
                                     title = "test",
                                     description = "test description",
                                     imageUrl = "",
-                                    url = ""
+                                    url = link
                                 ),
-                                //link = link,
                             )
                         }
 

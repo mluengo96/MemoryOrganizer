@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
@@ -51,6 +52,7 @@ fun BookmarkItemInvalid(
             Text(
                 text = "An error occurred while trying to load the information",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                textAlign = TextAlign.Center,
             )
         }
     }

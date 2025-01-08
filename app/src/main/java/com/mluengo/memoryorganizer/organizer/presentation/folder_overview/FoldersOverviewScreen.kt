@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mluengo.memoryorganizer.core.presentation.components.LoadingProgressIndicator
@@ -22,6 +22,7 @@ import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.compon
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.FolderItem
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.HeaderFolders
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.util.FoldersPreviewParameterProvider
+import com.mluengo.memoryorganizer.organizer.presentation.models.toFolderUi
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import org.koin.androidx.compose.koinViewModel
 
@@ -70,6 +71,7 @@ fun FoldersOverviewScreen(
                     .fillMaxWidth()
             ) {
                 item(span = { GridItemSpan(columns) }) { HeaderFolders() }
+                val testFolders = FoldersPreviewParameterProvider().values.map { folder -> folder.map { it.toFolderUi() } }.toList()
                 items((foldersState as HomeUiState.Folders).folders) { folder ->
                     FolderItem(
                         folderUi = folder,
@@ -84,7 +86,7 @@ fun FoldersOverviewScreen(
     }
 }
 
-@Preview(showBackground = true, device = "id:pixel_7a")
+@PreviewLightDark
 @Composable
 fun FolderScreenPreview(
     @PreviewParameter(FoldersPreviewParameterProvider::class)
