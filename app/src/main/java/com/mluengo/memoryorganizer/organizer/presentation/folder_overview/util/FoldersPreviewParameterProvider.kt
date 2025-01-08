@@ -1,8 +1,7 @@
-package com.mluengo.memoryorganizer.organizer.presentation.folder_overview
+package com.mluengo.memoryorganizer.organizer.presentation.folder_overview.util
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.mluengo.memoryorganizer.organizer.domain.model.Folder
-
 
 internal class FoldersPreviewParameterProvider: PreviewParameterProvider<List<Folder>> {
     override val values: Sequence<List<Folder>>

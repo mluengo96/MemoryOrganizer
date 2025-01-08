@@ -61,6 +61,7 @@ fun BookmarkScreen(
                 modifier = modifier
                     .fillMaxWidth()
             ) {
+
                 items(state.bookmarks) { bookmarkUi ->
                     BookmarkItem(
                         bookmarkUi = bookmarkUi,

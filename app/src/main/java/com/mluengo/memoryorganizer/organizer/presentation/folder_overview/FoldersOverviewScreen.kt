@@ -21,6 +21,7 @@ import com.mluengo.memoryorganizer.organizer.domain.model.Folder
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.EmptyFolderScreen
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.FolderItem
 import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.components.HeaderFolders
+import com.mluengo.memoryorganizer.organizer.presentation.folder_overview.util.FoldersPreviewParameterProvider
 import com.mluengo.memoryorganizer.ui.theme.LocalSpacing
 import org.koin.androidx.compose.koinViewModel
 

@@ -1,6 +1,7 @@
 package com.mluengo.memoryorganizer.organizer.presentation.bookmarks
 
 import androidx.lifecycle.ViewModel
+import com.mluengo.memoryorganizer.organizer.presentation.bookmarks.util.BookmarksPreviewParameterProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class BookmarkListViewModel(
@@ -8,9 +9,7 @@ class BookmarkListViewModel(
 ): ViewModel() {
     private val _state = MutableStateFlow(
         BookmarkListState(
-            bookmarks = (1..10).map {
-                previewBookmark
-            }
+            bookmarks = BookmarksPreviewParameterProvider().values
         ),
     )
     val state = _state

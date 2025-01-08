@@ -108,7 +108,8 @@ fun FolderDetailScreen(
                                 bookmarkUi = BookmarkUi(
                                     title = "test",
                                     description = "test description",
-                                    imageUrl = ""
+                                    imageUrl = "",
+                                    url = ""
                                 ),
                                 //link = link,
                             )

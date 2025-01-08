@@ -6,12 +6,14 @@ data class BookmarkUi(
     val title: String,
     val description: String,
     val imageUrl: String,
+    val url: String
 )
 
 fun Bookmark.toBookmarkUi(): BookmarkUi {
     return BookmarkUi(
         title = title,
         description = description,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        url = url,
     )
 }
