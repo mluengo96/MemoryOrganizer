@@ -3,12 +3,12 @@ package com.mluengo.memoryorganizer.organizer.presentation.folder_overview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +28,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FoldersOverviewScreen(
-    lazyGridState: LazyGridState,
+    lazyStaggeredGridState: LazyStaggeredGridState,
     onFolderClick: (String) -> Unit,
     viewModel: FoldersOverviewViewModel = koinViewModel()
 ) {
@@ -37,7 +37,7 @@ fun FoldersOverviewScreen(
 
     // Ensure the list always starts at the top when entering this screen
     LaunchedEffect(Unit) {
-        lazyGridState.scrollToItem(0)
+        lazyStaggeredGridState.scrollToItem(0)
     }
 
     when (foldersState) {
@@ -61,16 +61,16 @@ fun FoldersOverviewScreen(
                 }
             }*/
             val columns = 2
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(columns),
-                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Fixed(columns),
+                verticalItemSpacing = spacing.spaceSmall,
                 horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
                 contentPadding = PaddingValues(spacing.spaceMedium),
-                state = lazyGridState,
+                state = lazyStaggeredGridState,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                item(span = { GridItemSpan(columns) }) { HeaderFolders() }
+                item(span = StaggeredGridItemSpan.FullLine) { HeaderFolders() }
                 val testFolders = FoldersPreviewParameterProvider().values.map { folder -> folder.map { it.toFolderUi() } }.toList()
                 items((foldersState as HomeUiState.Folders).folders) { folder ->
                     FolderItem(
@@ -93,7 +93,7 @@ fun FolderScreenPreview(
     folders: List<Folder>
 ) {
     FoldersOverviewScreen(
-        lazyGridState = rememberLazyGridState(),
+        lazyStaggeredGridState = rememberLazyStaggeredGridState(),
         onFolderClick = { }
     )
 }

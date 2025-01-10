@@ -1,8 +1,7 @@
 package com.mluengo.memoryorganizer.core.navigation
 
 import androidx.annotation.Keep
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -27,13 +26,11 @@ fun NavController.navigateToHome(
 ) = navigate(route = HomeRoute(initialFolderId), navOptions)
 
 fun NavGraphBuilder.homeScreen(
-    lazyGridState: LazyGridState,
-    lazyListState: LazyListState,
+    lazyStaggeredGridState: LazyStaggeredGridState,
 ) {
     composable<HomeRoute> {
         FolderListDetailScreen(
-            lazyGridState = lazyGridState,
-            lazyListState = lazyListState,
+            lazyStaggeredGridState = lazyStaggeredGridState,
         )
     }
 }

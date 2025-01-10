@@ -1,8 +1,7 @@
 package com.mluengo.memoryorganizer.core.presentation
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -35,15 +34,13 @@ import java.util.UUID
 
 @Composable
 internal fun FolderListDetailScreen(
-    lazyGridState: LazyGridState,
-    lazyListState: LazyListState,
+    lazyStaggeredGridState: LazyStaggeredGridState,
     viewModel: Folders2PaneViewModel = koinViewModel(),
 ) {
     val selectedFolderId by viewModel.selectedFolderId.collectAsStateWithLifecycle()
     FolderListDetailScreen(
         selectedFolderId = selectedFolderId,
-        lazyGridState = lazyGridState,
-        lazyListState = lazyListState,
+        lazyStaggeredGridState = lazyStaggeredGridState,
         onFolderClick = viewModel::onFolderClick,
     )
 }
@@ -52,8 +49,7 @@ internal fun FolderListDetailScreen(
 @Composable
 internal fun FolderListDetailScreen(
     selectedFolderId: String?,
-    lazyGridState: LazyGridState,
-    lazyListState: LazyListState,
+    lazyStaggeredGridState: LazyStaggeredGridState,
     onFolderClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -103,7 +99,7 @@ internal fun FolderListDetailScreen(
         listPane = {
             AnimatedPane {
                 FoldersOverviewScreen(
-                    lazyGridState = lazyGridState,
+                    lazyStaggeredGridState = lazyStaggeredGridState,
                     onFolderClick = ::onFolderClickShowDetailPane
                 )
             }
@@ -120,7 +116,7 @@ internal fun FolderListDetailScreen(
                         route = DetailPaneNavHostRoute::class
                     ) {
                         folderScreen(
-                            lazyGridState = lazyGridState,
+                            lazyStaggeredGridState = lazyStaggeredGridState,
                             onNavigateUp = listDetailNavigator::navigateBack
                         )
                         composable<FolderPlaceholderRoute> {

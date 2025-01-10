@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +32,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun BookmarkScreen(
     viewModel: BookmarkListViewModel = koinViewModel(),
-    lazyGridState: LazyGridState,
+    lazyStaggeredGridState: LazyStaggeredGridState,
     isTopAppBarVisible: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -41,7 +41,7 @@ fun BookmarkScreen(
 
     LaunchedEffect(Unit) {
         // Ensure the list always starts at the top when entering this screen
-        lazyGridState.scrollToItem(0)
+        lazyStaggeredGridState.scrollToItem(0)
     }
 
     if (state.bookmarks.isEmpty()) {
@@ -52,16 +52,15 @@ fun BookmarkScreen(
                 title = stringResource(id = R.string.bookmarks_title),
                 isVisible = isTopAppBarVisible,
             )
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Fixed(2),
+                verticalItemSpacing = spacing.spaceSmall,
                 horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
                 contentPadding = PaddingValues(spacing.spaceMedium),
-                state = lazyGridState,
+                state = lazyStaggeredGridState,
                 modifier = modifier
                     .fillMaxWidth()
             ) {
-
                 items(state.bookmarks) { bookmarkUi ->
                     BookmarkItem(
                         bookmarkUi = bookmarkUi,
@@ -79,7 +78,7 @@ fun BookmarkScreen(
 fun BookmarksScreenPreview() {
     MemoryOrganizerTheme {
         BookmarkScreen(
-            lazyGridState = rememberLazyGridState(),
+            lazyStaggeredGridState = rememberLazyStaggeredGridState(),
             isTopAppBarVisible = true,
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background),

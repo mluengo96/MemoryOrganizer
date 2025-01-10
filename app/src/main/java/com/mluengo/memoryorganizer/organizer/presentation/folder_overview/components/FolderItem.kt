@@ -37,7 +37,7 @@ fun FolderItem(
         ) {
             Text(
                 text = folderUi.title,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.bodyLarge,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2
             )

@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Text
@@ -40,7 +40,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FolderDetailScreen(
-    lazyGridState: LazyGridState,
+    lazyStaggeredGridState: LazyStaggeredGridState,
     isTopAppBarVisible: Boolean,
     onNavigateUp: () -> Unit,
     viewModel: FolderDetailViewModel = koinViewModel()
@@ -51,7 +51,7 @@ fun FolderDetailScreen(
 
     LaunchedEffect(Unit) {
         // Ensure the list always starts at the top when entering this screen
-        lazyGridState.scrollToItem(0)
+        lazyStaggeredGridState.scrollToItem(0)
     }
 
     when (state) {
@@ -76,23 +76,23 @@ fun FolderDetailScreen(
                 )
                 Column {
                     val columns = 2
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(columns),
-                        verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Fixed(columns),
+                        verticalItemSpacing = spacing.spaceSmall,
                         horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
                         contentPadding = PaddingValues(spacing.spaceMedium),
-                        state = lazyGridState,
+                        state = lazyStaggeredGridState,
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-                        item(span = { GridItemSpan(columns) }) {
+                        item(span = StaggeredGridItemSpan.FullLine) {
                             Text(
                                 text = details.description,
                                 textAlign = TextAlign.Start,
                                 style = MemoryOrganizerTypography.bodyLarge,
                             )
                         }
-                        item(span = { GridItemSpan(columns) }) {
+                        item(span = StaggeredGridItemSpan.FullLine) {
                             Spacer(modifier = Modifier.height(spacing.spaceLarge))
                         }
 
@@ -117,7 +117,7 @@ fun FolderDetailScreen(
                             )
                         }
 
-                        item(span = { GridItemSpan(columns) }) {
+                        item(span = StaggeredGridItemSpan.FullLine) {
                             BackToTopButton(modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
@@ -125,7 +125,7 @@ fun FolderDetailScreen(
                                     vertical = spacing.spaceMedium
                                 )) {
                                 coroutineScope.launch {
-                                    lazyGridState.animateScrollToItem(0)
+                                    lazyStaggeredGridState.animateScrollToItem(0)
                                 }
                             }
                         }
@@ -140,7 +140,7 @@ fun FolderDetailScreen(
 @Composable
 fun ItemScreenPreview() {
     FolderDetailScreen(
-        lazyGridState = rememberLazyGridState(),
+        lazyStaggeredGridState = rememberLazyStaggeredGridState(),
         isTopAppBarVisible = true,
         onNavigateUp = { }
     )
